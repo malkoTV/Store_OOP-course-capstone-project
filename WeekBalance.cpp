@@ -3,3 +3,19 @@
 //
 
 #include "Store.h"
+
+WeekBalance::WeekBalance() : Balance()
+{
+
+}
+
+std::list<DayBalance> WeekBalance::getDays()
+{
+    return days;
+}
+
+bool WeekBalance::setDays(std::list<DayBalance> value)
+{
+    days = value;
+    return true;
+}

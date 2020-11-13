@@ -17,10 +17,10 @@ public:
 
     //getters & setters
     int getDay();
-    bool setDay();
+    bool setDay(int value);
 
     int getMonth();
-    bool setMonth();
+    bool setMonth(int value);
 };
 
 enum ItemType { byWeight, individually };
@@ -32,14 +32,28 @@ private:
     float price;
 public:
     Item();
+
+    //getters & setters
+    std::string getName();
+    bool setName(std::string value);
+
+    ItemType getType();
+    bool setType(ItemType value);
+
+    float getPrice();
+    bool setPrice(float value);
 };
 
 class Listings
 {
 private:
-    std::list<Item> list;
+    std::list<Item> items;
 public:
     Listings();
+
+    //getters & setters
+    std::list<Item> getItems();
+    bool setItems(std::list<Item> &value);
 };
 
 class Seller
@@ -50,6 +64,10 @@ private:
     int age;
 public:
     Seller();
+
+    //getters & setters
+    std::string getLastName();
+    bool setLastName(std::string value);
 };
 
 class Order
@@ -61,13 +79,31 @@ private:
     //amount - int or float - depends on type
     float total;
 public:
-    Order;
+    Order();
+
+    //getters & setters
+    Date getDate();
+    bool setDate(Date value);
+
+    Seller getSeller();
+    bool setSeller(Seller value);
+
+    Item getitem();
+    bool setItem(Item value);
+
+    //todo amount get & set
 };
 
 class Balance
 {
 private:
     float total;
+public:
+    Balance();
+
+    //getters & setters
+    float getTotal();
+    bool setTotal(float value);
 };
 
 class DayBalance : public Balance
@@ -76,6 +112,10 @@ private:
     std::list<Order> orders;
 public:
     DayBalance();
+
+    //getters & setters
+    std::list<Order> getOrders();
+    bool setOrders(std::list<Order> value);
 };
 
 class WeekBalance : public Balance
@@ -84,6 +124,10 @@ private:
     std::list<DayBalance> days;
 public:
     WeekBalance();
+
+    //getters & setters
+    std::list<DayBalance> getDays();
+    bool setDays(std::list<DayBalance> value);
 };
 
 #endif //STORE_STORE_H
