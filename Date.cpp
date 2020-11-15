@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Store.h"
+#include "Date.h"
 
 //constructors
 Date::Date()
@@ -19,6 +19,7 @@ int Date::getDay()
     return day;
 }
 
+//todo advanced setters for date
 bool Date::setDay(int value)
 {
     if(value > 0 && value <= 31)
