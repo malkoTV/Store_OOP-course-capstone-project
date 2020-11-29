@@ -11,13 +11,20 @@
 class Listings
 {
 private:
-    std::list<Item> items;
+    Item* items;
+    int size;
 public:
     Listings();
 
     //getters & setters
-    std::list<Item> getItems();
-    bool setItems(std::list<Item> &value);
+    Item* getItems();
+    bool setItems(Item *&value);
+
+    //Operators
+    Item& operator[] (int index);
+
+    //Methods
+    void Table();
 };
 
 #endif //STORE_LISTINGS_H

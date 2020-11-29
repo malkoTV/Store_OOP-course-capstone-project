@@ -9,6 +9,8 @@
 Item::Item()
 {
     name = "default";
+    type = individually;
+    price = 0.0f;
 }
 
 //getters & setters

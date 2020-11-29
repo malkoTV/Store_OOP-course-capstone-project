@@ -7,6 +7,16 @@
 #include <iostream>
 
 enum ItemType { byWeight, individually };
+inline const std::string ToString(ItemType v)
+{
+    switch (v)
+    {
+        case byWeight:   return "By weight";
+        case individually:   return "Individually";
+        default:      return "[Unknown]";
+    }
+}
+
 class Item
 {
 private:
