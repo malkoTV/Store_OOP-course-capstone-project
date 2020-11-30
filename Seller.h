@@ -14,11 +14,21 @@ private:
     std::string firstName;
     int age;
 public:
+    //constructors
     Seller();
 
     //getters & setters
     std::string getLastName();
     bool setLastName(std::string value);
+
+    std::string getFirstName();
+    bool setFirstName(std::string value);
+
+    int getAge();
+    bool setAge(int value);
+
+    //operators
+    operator std::string() const;
 };
 
 #endif //STORE_SELLER_H

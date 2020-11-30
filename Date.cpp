@@ -2,8 +2,7 @@
 // Created by 1 on 13-Nov-20.
 //
 
-#include <iostream>
-#include <iomanip>
+#include <string>
 #include "Date.h"
 
 //constructors
@@ -43,5 +42,21 @@ bool Date::setMonth(int value)
         return true;
     }
     return false;
+}
+
+Date::operator std::string() const {
+    std::string strM = std::to_string(month);
+    if(month < 10)
+    {
+        strM = "0" + strM;
+    }
+
+    std::string strD = std::to_string(day);
+    if(day < 10)
+    {
+        strD = "0" + strD;
+    }
+
+    return strD + "." + strM;
 }
 

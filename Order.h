@@ -15,7 +15,7 @@ private:
     Date date;
     Seller seller;
     Item item;
-    //amount - int or float - depends on type
+    float amount;
     float total;
 public:
     Order();
@@ -27,10 +27,14 @@ public:
     Seller getSeller();
     bool setSeller(Seller value);
 
-    Item getitem();
+    Item getItem();
     bool setItem(Item value);
 
-    //todo amount get & set
+    float getAmount();
+    bool setAmount(float value);
+
+    float getTotal();
+    bool setTotal(float value);
 };
 
 #endif //STORE_ORDER_H

@@ -35,6 +35,9 @@ public:
 
     float getPrice();
     bool setPrice(float value);
+
+    //operators
+    operator std::string() const;
 };
 
 #endif //STORE_ITEM_H

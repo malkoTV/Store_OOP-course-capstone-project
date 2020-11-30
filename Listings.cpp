@@ -6,10 +6,40 @@
 #include "Listings.h"
 #include "ShowUtils.h"
 
-Listings::Listings()
+Listings::Listings() : Showable()
 {
     size = 1;
     items = new Item[size];
+}
+
+Listings::Listings(Item *items, int size) : Showable()
+{
+    if(size > 0)
+    {
+        this->size = size;
+        items = new Item[size];
+
+        for(int i = 0; i < size; i++)
+        {
+            this->items[i] = items[i];
+        }
+    }
+    else
+    {
+        size = 1;
+        items = new Item[size];
+    }
+}
+
+Listings::Listings(int size) : Showable()
+{
+    this->size = size;
+    items = new Item[size];
+}
+
+Listings::~Listings()
+{
+    delete [] items;
 }
 
 Item* Listings::getItems()
@@ -36,74 +66,75 @@ void Listings::Table()
     int fieldLength = 20;
 
     //headline
-    print(218);
-    line(196, fieldLength);
-    print(194);
-    line(196, fieldLength);
-    print(194);
-    line(196, fieldLength);
-    print(191);
+    ShowUtils::print(218);
+    ShowUtils::line(196, fieldLength);
+    ShowUtils::print(194);
+    ShowUtils::line(196, fieldLength);
+    ShowUtils::print(194);
+    ShowUtils::line(196, fieldLength);
+    ShowUtils::print(191);
     printf("\n");
 
     //header
-    print(179); // vertical line
+    ShowUtils::print(179); // vertical line
     printf("   %s", std::string("Name").c_str());
-    line(255, fieldLength - 2 - std::string("Name").length() - 1);
-    print(179); // vertical line
+    ShowUtils::line(255, fieldLength - 2 - std::string("Name").length() - 1);
+    ShowUtils::print(179); // vertical line
     printf("   %s", std::string("Type").c_str());
-    line(255, fieldLength - 2 - std::string("Type").length() - 1);
-    print(179); // vertical line
+    ShowUtils::line(255, fieldLength - 2 - std::string("Type").length() - 1);
+    ShowUtils::print(179); // vertical line
     printf("   %s", std::string("Price").c_str());
-    line(255, fieldLength - 2 - std::string("Price").length() - 1);
-    print(179); // vertical line
+    ShowUtils::line(255, fieldLength - 2 - std::string("Price").length() - 1);
+    ShowUtils::print(179); // vertical line
 
     printf("\n");
 
-    print(198);
-    line(205, fieldLength);
-    print(216);
-    line(205, fieldLength);
-    print(216);
-    line(205, fieldLength);
-    print(181);
+    ShowUtils::print(198);
+    ShowUtils::line(205, fieldLength);
+    ShowUtils::print(216);
+    ShowUtils::line(205, fieldLength);
+    ShowUtils::print(216);
+    ShowUtils::line(205, fieldLength);
+    ShowUtils::print(181);
     printf("\n");
 
     for(int i = 0; i < size; i++)
     {
-        print(179); // vertical line
+        ShowUtils::print(179); // vertical line
         printf("   %s", items[i].getName().c_str());
-        line(255, fieldLength - 2 - items[i].getName().length() - 1);
-        print(179); // vertical line
+        ShowUtils::line(255, fieldLength - 2 - items[i].getName().length() - 1);
+        ShowUtils::print(179); // vertical line
         printf("   %s", ToString(items[i].getType()).c_str());
-        line(255, fieldLength - 2 - std::string(ToString(items[i].getType())).length() - 1);
-        print(179); // vertical line
+        ShowUtils::line(255, fieldLength - 2 - std::string(ToString(items[i].getType())).length() - 1);
+        ShowUtils::print(179); // vertical line
         printf("   %5f", items[i].getPrice());
-        line(255, fieldLength - 2 - 8 - 1);
-        print(179); // vertical line
+        ShowUtils::line(255, fieldLength - 2 - 8 - 1);
+        ShowUtils::print(179); // vertical line
 
         printf("\n");
 
         if(i < size - 1)
         {
-            print(195);
-            line(196, fieldLength);
-            print(197);
-            line(196, fieldLength);
-            print(197);
-            line(196, fieldLength);
-            print(180);
+            ShowUtils::print(195);
+            ShowUtils::line(196, fieldLength);
+            ShowUtils::print(197);
+            ShowUtils::line(196, fieldLength);
+            ShowUtils::print(197);
+            ShowUtils::line(196, fieldLength);
+            ShowUtils::print(180);
         }
         else
         {
-            print(192);
-            line(196, fieldLength);
-            print(193);
-            line(196, fieldLength);
-            print(193);
-            line(196, fieldLength);
-            print(217);
+            ShowUtils::print(192);
+            ShowUtils::line(196, fieldLength);
+            ShowUtils::print(193);
+            ShowUtils::line(196, fieldLength);
+            ShowUtils::print(193);
+            ShowUtils::line(196, fieldLength);
+            ShowUtils::print(217);
         }
 
         printf("\n");
     }
 }
+

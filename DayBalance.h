@@ -12,13 +12,21 @@
 class DayBalance : public Balance
 {
 private:
-    std::list<Order> orders;
+    Order* orders;
+    int size;
+    float dayTotal;
 public:
     DayBalance();
+    DayBalance(int size);
 
     //getters & setters
-    std::list<Order> getOrders();
-    bool setOrders(std::list<Order> value);
+    Order* getOrders();
+    bool setOrders(Order* value);
+
+    int getSize();
+
+    //methods
+    void Table();
 };
 
 #endif //STORE_DAYBALANCE_H

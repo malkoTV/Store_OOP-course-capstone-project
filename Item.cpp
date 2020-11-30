@@ -52,5 +52,14 @@ bool Item::setPrice(float value)
         price = value;
         return true;
     }
-    return false;
+    else
+    {
+        price = 1.0;
+        return false;
+    }
+}
+
+Item::operator std::string() const
+{
+    return name;
 }

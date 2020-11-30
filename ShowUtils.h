@@ -7,17 +7,11 @@
 
 #include <iostream>
 
-void line(char s, int n)
-{
-    for(int i = 0; i <= n; i++)
-    {
-        printf("%c", s);
-    }
-}
+class ShowUtils{
+public:
+    static void line(char s, int n);
+    static void print(char code);
 
-void print(char code)
-{
-    printf("%c", code);
-}
+};
 
 #endif //STORE_SHOWUTILS_H

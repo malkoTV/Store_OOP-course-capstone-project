@@ -7,14 +7,19 @@
 
 #include <list>
 #include "Item.h"
+#include "Showable.h"
 
-class Listings
+class Listings : public Showable
 {
 private:
     Item* items;
     int size;
 public:
+    //constructors & Destructors
     Listings();
+    Listings(Item* items, int size);
+    Listings(int size);
+    ~Listings();
 
     //getters & setters
     Item* getItems();

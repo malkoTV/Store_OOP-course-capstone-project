@@ -4,9 +4,9 @@
 
 #include "Balance.h"
 
-Balance::Balance()
+Balance::Balance() : Showable()
 {
-
+    total = 0.0;
 }
 
 float Balance::getTotal()

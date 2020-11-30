@@ -2,10 +2,12 @@
 // Created by 1 on 15-Nov-20.
 //
 
+#include "Showable.h"
+
 #ifndef STORE_BALANCE_H
 #define STORE_BALANCE_H
 
-class Balance
+class Balance : public Showable
 {
 private:
     float total;
