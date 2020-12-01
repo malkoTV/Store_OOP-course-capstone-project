@@ -96,7 +96,7 @@ void DayBalance::Table()
         ShowUtils::print(179); // vertical line
         ShowUtils::line(255, fieldLength - 5);
         printf("%-5.2f", orders[i].getTotal());
-        ShowUtils::print(179); // vertical line*/
+        ShowUtils::print(179); // vertical line
 
         printf("\n");
 
@@ -134,7 +134,6 @@ void DayBalance::Table()
         ShowUtils::print(193);
         ShowUtils::line(196, fieldLength);
     }
-
 
     ShowUtils::print(217);
 }

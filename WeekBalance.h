@@ -6,17 +6,26 @@
 #define STORE_WEEKBALANCE_H
 
 #include "DayBalance.h"
+#define W 7
 
 class WeekBalance : public Balance
 {
 private:
-    std::list<DayBalance> days;
+    DayBalance* days;
+    std::string dayName[W] = {"Monday", "Tuesday", "Wednesday",
+                              "Thursday", "Friday", "Saturday",
+                              "Sunday"};
 public:
+    //constructors & destructors
     WeekBalance();
+    ~WeekBalance();
 
     //getters & setters
-    std::list<DayBalance> getDays();
-    bool setDays(std::list<DayBalance> value);
+    DayBalance* getDays();
+    bool setDays(DayBalance* value);
+
+    //methods
+    void Table();
 };
 
 #endif //STORE_WEEKBALANCE_H
