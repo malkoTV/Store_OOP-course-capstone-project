@@ -26,13 +26,13 @@ int main() {
     WeekBalance weekBalance = WeekBalance();
     weekBalance.Table();
 
-    Item item = Item();
-    item.setPrice(90.0);
-    WriteBinaryFile(&item, 1, "Data file");
-    Item item2 = Item();
-    ReadBinaryFile(&item2, 1);
+    Item* item = new Item();
+    item->setPrice(90.0);
+    WriteTextFile(item, 1, "File skdhfwKEFB");
+    Item* item2 = new Item();
+    ReadTextFile(item2, 1, "kdjhglkh");
 
-    cout << "Item price " << item2.getPrice() << endl;
+    cout << "Item price " << item2->getPrice() << endl;
 
     /*for(int i = 179; i < 256; i++)
     {
@@ -51,63 +51,90 @@ int main() {
 template<class T> void WriteTextFile(T* object, int size, string name, string path, string format)
 {
     ofstream output;
-    output.open(path + name + format, ofstream::app);
+    string filepath = path + name + format;
 
-    //todo write try catch block and throw an exception
-    if(output.is_open())
-    {
+    output.exceptions(ifstream::badbit | ifstream::failbit);
+
+    try{
+        output.open(filepath, ofstream::app);
         for(int i = 0; i < size; i++)
         {
             output.write((char*)&object[i], sizeof(T));
         }
+        output.close();
     }
-    output.close();
+    catch (const ifstream::failure &ex)
+    {
+        cout << "Error opening/writing to file" << endl;
+        cout << "Path: " << filepath << endl;
+    }
 }
 
 template<class T> void ReadTextFile(T* object, int size, string name, string path, string format)
 {
     ifstream input;
-    input.open(path + name + format);
+    string filepath = path + name + format;
 
-    //todo write try catch block and throw an exception
-    if(input.is_open())
-    {
+    input.exceptions(ifstream::badbit | ifstream::failbit);
+
+    try{
+        input.open(filepath);
         for(int i = 0; i < size; i++)
         {
             input.read((char*)&object[i], sizeof(T));
         }
+
+        input.close();
     }
-    input.close();
+    catch (const ifstream::failure &ex)
+    {
+        cout << "Error opening/reading from file" << endl;
+        cout << "Path: " << filepath << endl;
+    }
 }
 
 template<class T> void WriteBinaryFile(T* object, int size, string name, string path, string format)
 {
     ofstream output;
-    output.open(path + name + format,ios::out | ios::binary);
+    string filepath = path + name + format;
 
-    //todo write try catch block and throw an exception
-    if(output.is_open())
+    output.exceptions(ifstream::badbit | ifstream::failbit);
+
+    try
     {
+        output.open(filepath,ios::out | ios::binary | ios::app);
         for(int i = 0; i < size; i++)
         {
             output.write((char*)&object[i], sizeof(T));
         }
+        output.close();
     }
-    output.close();
+    catch (const ifstream::failure &ex)
+    {
+        cout << "Error opening/writing to file" << endl;
+        cout << "Path: " << filepath << endl;
+    }
 }
 
 template<class T> void ReadBinaryFile(T* object, int size, string name, string path, string format)
 {
     ifstream input;
-    input.open(path + name + format, ios::out | ios::binary | ios::app);
+    string filepath = path + name + format;
 
-    //todo write try catch block and throw an exception
-    if(input.is_open())
-    {
+    input.exceptions(ifstream::badbit | ifstream::failbit);
+
+    try{
+        input.open(filepath, ios::in | ios::binary);
+
         for(int i = 0; i < size; i++)
         {
             input.read((char*)&object[i], sizeof(T));
         }
+        input.close();
     }
-    input.close();
+    catch (const ifstream::failure &ex)
+    {
+        cout << "Error opening/reading from file" << endl;
+        cout << "Path: " << filepath << endl;
+    }
 }
