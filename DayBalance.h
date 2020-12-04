@@ -22,8 +22,10 @@ public:
     //getters & setters
     Order* getOrders();
     bool setOrders(Order* value);
-
     int getSize();
+
+    //operators
+    Order& operator[](int index);
 
     //methods
     void Table();

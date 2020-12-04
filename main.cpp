@@ -6,6 +6,10 @@
 #include "DayBalance.h"
 #include "WeekBalance.h"
 
+#include "Exceptions/IndexingException.h"
+#include "Exceptions/LargeIdxException.h"
+#include "Exceptions/NegIdxException.h"
+
 using namespace std;
 
 void Table(Item* array, int n);
@@ -19,20 +23,53 @@ int main() {
 
     Listings shopItems = Listings(5);
     //shopItems.Table();
+    try{
+        shopItems[10];
+    }
+    catch(NegIdxException ex)
+    {
+        ex.PrintMessage();
+    }
+    catch(LargeIdxException ex)
+    {
+        ex.PrintMessage();
+    }
 
     DayBalance balance = DayBalance(5);
     //balance.Table();
+    try{
+        balance[12];
+    }
+    catch(NegIdxException ex)
+    {
+        ex.PrintMessage();
+    }
+    catch(LargeIdxException ex)
+    {
+        ex.PrintMessage();
+    }
 
     WeekBalance weekBalance = WeekBalance();
-    weekBalance.Table();
+    //weekBalance.Table();
+    try{
+        weekBalance[-2];
+    }
+    catch(NegIdxException ex)
+    {
+        ex.PrintMessage();
+    }
+    catch(LargeIdxException ex)
+    {
+        ex.PrintMessage();
+    }
 
-    Item* item = new Item();
+    /*Item* item = new Item();
     item->setPrice(90.0);
     WriteTextFile(item, 1, "File skdhfwKEFB");
     Item* item2 = new Item();
     ReadTextFile(item2, 1, "kdjhglkh");
 
-    cout << "Item price " << item2->getPrice() << endl;
+    cout << "Item price " << item2->getPrice() << endl;*/
 
     /*for(int i = 179; i < 256; i++)
     {

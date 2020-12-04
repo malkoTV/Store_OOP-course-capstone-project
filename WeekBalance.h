@@ -24,6 +24,9 @@ public:
     DayBalance* getDays();
     bool setDays(DayBalance* value);
 
+    //operators
+    DayBalance& operator[](int index);
+
     //methods
     void Table();
 };

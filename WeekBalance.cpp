@@ -4,6 +4,8 @@
 
 #include "WeekBalance.h"
 #include "ShowUtils.h"
+#include "Exceptions/NegIdxException.h"
+#include "Exceptions/LargeIdxException.h"
 
 WeekBalance::WeekBalance() : Balance()
 {
@@ -24,6 +26,22 @@ bool WeekBalance::setDays(DayBalance* value)
 {
     days = value;
     return true;
+}
+
+DayBalance& WeekBalance::operator[](int index)
+{
+    if(index < 0)
+    {
+        throw NegIdxException(index);
+    }
+    else if(index >= W)
+    {
+        throw LargeIdxException(index);
+    }
+    else
+    {
+        return days[index];
+    }
 }
 
 void WeekBalance::Table()
@@ -115,4 +133,5 @@ void WeekBalance::Table()
         printf("\n");
     }
 }
+
 

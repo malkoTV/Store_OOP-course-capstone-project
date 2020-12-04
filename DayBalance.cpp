@@ -4,6 +4,8 @@
 
 #include "DayBalance.h"
 #include "ShowUtils.h"
+#include "Exceptions/NegIdxException.h"
+#include "Exceptions/LargeIdxException.h"
 
 DayBalance::DayBalance() : Balance()
 {
@@ -32,6 +34,22 @@ bool DayBalance::setOrders(Order* value)
 
 int DayBalance::getSize() {
     return size;
+}
+
+Order& DayBalance::operator[](int index)
+{
+    if(index < 0)
+    {
+        throw NegIdxException(index);
+    }
+    else if(index >= size)
+    {
+        throw LargeIdxException(index);
+    }
+    else
+    {
+        return orders[index];
+    }
 }
 
 void DayBalance::Table()

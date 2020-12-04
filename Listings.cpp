@@ -5,6 +5,8 @@
 #include "Item.h"
 #include "Listings.h"
 #include "ShowUtils.h"
+#include "Exceptions/NegIdxException.h"
+#include "Exceptions/LargeIdxException.h"
 
 Listings::Listings() : Showable()
 {
@@ -56,6 +58,18 @@ bool Listings::setItems(Item *&value)
 Item &Listings::operator[](int index)
 {
     if(index >= 0 && index < size)
+    {
+        return items[index];
+    }
+    if(index < 0)
+    {
+        throw NegIdxException(index);
+    }
+    else if(index >= size)
+    {
+        throw LargeIdxException(index);
+    }
+    else
     {
         return items[index];
     }
