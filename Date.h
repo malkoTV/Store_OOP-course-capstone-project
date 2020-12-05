@@ -14,6 +14,7 @@ private:
     int month;
 public:
     Date();
+    Date(int day, int month);
 
     //getters & setters
     int getDay();
@@ -23,6 +24,16 @@ public:
     bool setMonth(int value);
 
     //operators
+    std::string operator+(const std::string& str) const;
+    bool operator==(const Date &other) const;
+    bool operator!=(const Date &other) const;
+    bool operator<(const Date &other) const;
+    bool operator>(const Date &other) const;
+    bool operator<=(const Date &other) const;
+    bool operator>=(const Date &other) const;
+    Date operator++();
+    Date operator--();
+
     operator std::string() const;
 
     //methods

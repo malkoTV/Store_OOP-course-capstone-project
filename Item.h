@@ -25,6 +25,7 @@ private:
     float price;
 public:
     Item();
+    Item(std::string name, ItemType type, float price);
 
     //getters & setters
     std::string getName();
@@ -37,7 +38,10 @@ public:
     bool setPrice(float value);
 
     //operators
+    std::string operator+(const std::string& str) const;
     operator std::string() const;
+    bool operator==(const Item &other) const;
+    bool operator!=(const Item &other) const;
 };
 
 #endif //STORE_ITEM_H

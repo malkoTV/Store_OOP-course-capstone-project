@@ -13,6 +13,29 @@ Item::Item()
     price = 0.0f;
 }
 
+Item::Item(std::string name, ItemType type, float price)
+{
+    if(name != "")
+    {
+        this->name = name;
+    }
+    else
+    {
+        this->name = "default";
+    }
+
+    this->type = type;
+
+    if(price > 0)
+    {
+        this->price = price;
+    }
+    else
+    {
+        price = 0.0;
+    }
+}
+
 //getters & setters
 std::string Item::getName()
 {
@@ -25,8 +48,13 @@ bool Item::setName(std::string value)
     if(value != "")
     {
         name = value;
+        return true;
     }
-    return false;
+    else
+    {
+        name = "default";
+        return false;
+    }
 }
 
 ItemType Item::getType()
@@ -63,3 +91,16 @@ Item::operator std::string() const
 {
     return name;
 }
+
+bool Item::operator==(const Item &other) const
+{
+    return (name == other.name) && (type == other.type)
+    && (price == other.price);
+}
+
+bool Item::operator!=(const Item &other) const
+{
+    return (name != other.name) || (type != other.type)
+           || (price != other.price);
+}
+

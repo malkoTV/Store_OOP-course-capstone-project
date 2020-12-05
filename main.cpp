@@ -2,6 +2,7 @@
 #include <clocale>
 #include <fstream>
 #include "Item.h"
+#include "Date.h"
 #include "Listings.h"
 #include "DayBalance.h"
 #include "WeekBalance.h"
@@ -63,6 +64,9 @@ int main() {
         ex.PrintMessage();
     }
 
+    Date date = Date();
+    string str = "Current date: ";
+    //cout << str + date << endl;
     /*Item* item = new Item();
     item->setPrice(90.0);
     WriteTextFile(item, 1, "File skdhfwKEFB");
