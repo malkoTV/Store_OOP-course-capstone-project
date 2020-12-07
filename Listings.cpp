@@ -152,3 +152,26 @@ void Listings::Table()
     }
 }
 
+Listings Listings::operator+ (const Item& item)
+{
+    this->AddItem(const_cast<Item &>(item));
+    return Listings(this->items, size);
+}
+
+void Listings::AddItem(Item& item)
+{
+    size++;
+    Item* temp = items;
+    items = new Item[size];
+    for(int i = 0; i < size - 1; i++)
+    {
+        items[i] = temp[i];
+    }
+
+    items[size - 1] = item;
+}
+
+Listings::operator int() {
+    return size;
+}
+

@@ -14,7 +14,6 @@ class DayBalance : public Balance
 private:
     Order* orders;
     int size;
-    float dayTotal;
 public:
     DayBalance();
     DayBalance(int size);
@@ -29,6 +28,24 @@ public:
 
     //methods
     void Table();
+
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    bool Contains(T var)
+    {
+        bool flag = false;
+        for(int i = 0; i < size; i++)
+        {
+            if(orders[i].Contains(var))
+            {
+                flag = true;
+                i = size;
+            }
+        }
+
+        return flag;
+    }
+
+    bool Contains(std::string str);
 };
 
 #endif //STORE_DAYBALANCE_H

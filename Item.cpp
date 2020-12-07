@@ -104,3 +104,14 @@ bool Item::operator!=(const Item &other) const
            || (price != other.price);
 }
 
+bool Item::Contains(std::string str)
+{
+    bool flag = false;
+    if(str == name || str == ToString(type))
+    {
+        flag = true;
+    }
+
+    return flag;
+}
+

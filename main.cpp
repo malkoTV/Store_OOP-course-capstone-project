@@ -22,8 +22,10 @@ template<class T> void ReadBinaryFile(T* object, int size, string name = "New fi
 
 int main() {
 
+    /*
     Listings shopItems = Listings(5);
     //shopItems.Table();
+    cout << "Item count " << (int)shopItems << endl;
     try{
         shopItems[10];
     }
@@ -35,6 +37,10 @@ int main() {
     {
         ex.PrintMessage();
     }
+    Item item = Item();
+    shopItems = shopItems + item;
+    shopItems.AddItem(item);
+    cout << "Item count " << (int)shopItems << endl;
 
     DayBalance balance = DayBalance(5);
     //balance.Table();
@@ -63,6 +69,29 @@ int main() {
     {
         ex.PrintMessage();
     }
+    */
+
+    WeekBalance weekBalance = WeekBalance();
+    weekBalance.getDays()[3].setTotal(40.0);
+    weekBalance.getDays()[3].getOrders()[0].setTotal(50.0);
+    weekBalance.getDays()[3].getOrders()[0].getSeller().setLastName("Malko");
+    weekBalance.getDays()[3].getOrders()[0].getItem().setName("Soup");
+    //weekBalance.getDays()[3].Table();
+    //cout << "Week average sum " << weekBalance.AvgOrderSum() << endl;
+    //cout << "Week average count " << weekBalance.AvgOrderCount() << endl;
+
+    int s = 5;
+    DayBalance* dayBalance = new DayBalance(s);
+    weekBalance.Table();
+    weekBalance.Search("Malko", dayBalance, s);
+
+    //weekBalance.Table();
+
+    dayBalance[0].Table();
+
+    DayBalance day = DayBalance();
+    day.Contains("string");
+    day.Contains(6);
 
     Date date = Date();
     string str = "Current date: ";
@@ -179,3 +208,4 @@ template<class T> void ReadBinaryFile(T* object, int size, string name, string p
         cout << "Path: " << filepath << endl;
     }
 }
+

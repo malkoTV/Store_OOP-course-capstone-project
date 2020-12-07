@@ -27,9 +27,12 @@ public:
 
     //Operators
     Item& operator[] (int index);
+    Listings operator+ (const Item& item);
+    operator int();
 
     //Methods
     void Table();
+    void AddItem(Item& item);
 };
 
 #endif //STORE_LISTINGS_H

@@ -11,14 +11,14 @@ DayBalance::DayBalance() : Balance()
 {
     size = 1;
     orders = new Order[size];
-    dayTotal = 0.0;
+    total = 0.0;
 }
 
 DayBalance::DayBalance(int size) : Balance()
 {
     this->size = size;
     orders = new Order[size];
-    dayTotal = 0.0;
+    total = 0.0;
 }
 
 Order* DayBalance::getOrders()
@@ -140,7 +140,7 @@ void DayBalance::Table()
     }
     printf(" %23s  ", "Total");
     ShowUtils::print(179);
-    printf("%25.2f ", dayTotal);
+    printf("%25.2f ", total);
     ShowUtils::print(179);
     printf("\n");
 
@@ -154,4 +154,21 @@ void DayBalance::Table()
     }
 
     ShowUtils::print(217);
+
+    printf("\n");
+}
+
+bool DayBalance::Contains(std::string str)
+{
+    bool flag = false;
+    for(int i = 0; i < size; i++)
+    {
+        if(orders[i].Contains(str))
+        {
+            flag = true;
+            i = size;
+        }
+    }
+
+    return flag;
 }

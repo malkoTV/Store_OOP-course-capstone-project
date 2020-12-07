@@ -9,7 +9,7 @@
 
 class Balance : public Showable
 {
-private:
+protected:
     float total;
 public:
     Balance();

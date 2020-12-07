@@ -37,6 +37,17 @@ public:
     operator std::string() const;
 
     //methods
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    bool Contains(T var)
+    {
+        bool flag = false;
+        if(var == day || var == month)
+        {
+            flag = true;
+        }
+
+        return flag;
+    }
 };
 
 #endif //STORE_DATE_H

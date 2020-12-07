@@ -35,6 +35,31 @@ public:
 
     float getTotal();
     bool setTotal(float value);
+
+    //methods
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    bool Contains(T var)
+    {
+        bool flag = false;
+
+        //to avoid checking further
+        if(var == amount || var == total)
+        {
+            flag = true;
+        }
+        else if(item.Contains(var))
+        {
+            flag = true;
+        }
+        else if(date.Contains(var))
+        {
+            flag = true;
+        }
+
+        return flag;
+    }
+
+    bool Contains(std::string str);
 };
 
 #endif //STORE_ORDER_H

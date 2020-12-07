@@ -83,3 +83,14 @@ bool Order::setTotal(float value)
         return false;
     }
 }
+
+bool Order::Contains(std::string str)
+{
+    bool flag = false;
+
+    if(seller.Contains(str))
+    {
+        flag = true;
+    }
+    return flag;
+}

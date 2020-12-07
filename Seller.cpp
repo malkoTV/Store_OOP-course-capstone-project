@@ -2,6 +2,7 @@
 // Created by 1 on 13-Nov-20.
 //
 
+#include <iostream>
 #include "Seller.h"
 
 Seller::Seller()
@@ -70,4 +71,18 @@ bool Seller::setAge(int value)
 Seller::operator std::string() const
 {
     return lastName + " " + firstName;
+}
+
+bool Seller::Contains(std::string str)
+{
+    bool flag = false;
+
+    std::cout << str << "Entered seller c\n";
+    if(str == lastName || str == firstName)
+    {
+        flag = true;
+        std::cout << "Entered if\n";
+    }
+
+    return flag;
 }

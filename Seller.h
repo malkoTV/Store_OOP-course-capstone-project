@@ -29,6 +29,9 @@ public:
 
     //operators
     operator std::string() const;
+
+    //methods
+    bool Contains(std::string str);
 };
 
 #endif //STORE_SELLER_H

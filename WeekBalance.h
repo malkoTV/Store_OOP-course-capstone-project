@@ -29,6 +29,10 @@ public:
 
     //methods
     void Table();
+    float AvgOrderCount();
+    float AvgOrderSum();
+    bool Search(std::string str, DayBalance* dayBalance, int& size);
+    bool Search(int num, DayBalance* dayBalance, int& size);
 };
 
 #endif //STORE_WEEKBALANCE_H

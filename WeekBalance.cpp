@@ -2,6 +2,7 @@
 // Created by 1 on 13-Nov-20.
 //
 
+#include <algorithm>
 #include "WeekBalance.h"
 #include "ShowUtils.h"
 #include "Exceptions/NegIdxException.h"
@@ -132,6 +133,75 @@ void WeekBalance::Table()
 
         printf("\n");
     }
+}
+
+template<typename T> float average(T* arr, unsigned int size)
+{
+    float sum = 0.0;
+    for(int i = 0; i < size; i++)
+    {
+        sum += arr[i];
+    }
+    return (sum / (float)size);
+}
+
+float WeekBalance::AvgOrderCount()
+{
+    int* temp = new int[W];
+    for(int i = 0; i < W; i++)
+    {
+        temp[i] = days[i].getSize();
+    }
+    float avg = average(temp, W);
+    return avg;
+}
+
+float WeekBalance::AvgOrderSum()
+{
+    float* temp = new float[W];
+    for(int i = 0; i < W; i++)
+    {
+        temp[i] = days[i].getTotal();
+    }
+    float avg = average(temp, W);
+    return avg;
+}
+
+bool WeekBalance::Search(std::string str, DayBalance* dayBalance, int& size)
+{
+    //todo use exception handling
+    bool flag = false;
+    int iter = 0;
+
+    for(int i = 0; i < W && iter < size; i++)
+    {
+        if(days[i].Contains(str))
+        {
+            flag = true;
+            dayBalance[iter] = days[i];
+            iter++;
+            std::cout << "Entered if\n";
+        }
+    }
+
+    return flag;
+}
+
+bool WeekBalance::Search(int num, DayBalance* dayBalance, int& size)
+{
+    bool flag = false;
+    int iter = 0;
+
+    for(int i = 0;  i < W && iter < size; i++)
+    {
+        if(days[i].Contains(num))
+        {
+            flag = true;
+            dayBalance[i] = days[i];
+        }
+    }
+
+    return flag;
 }
 
 

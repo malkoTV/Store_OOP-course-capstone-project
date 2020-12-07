@@ -42,6 +42,23 @@ public:
     operator std::string() const;
     bool operator==(const Item &other) const;
     bool operator!=(const Item &other) const;
+
+    //methods
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    bool Contains(T var)
+    {
+        bool flag = false;
+
+        //to avoid checking further
+        if(var == price)
+        {
+            flag = true;
+        }
+
+        return flag;
+    }
+
+    bool Contains(std::string str);
 };
 
 #endif //STORE_ITEM_H
