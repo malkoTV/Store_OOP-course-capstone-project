@@ -42,6 +42,7 @@ public:
     operator std::string() const;
     bool operator==(const Item &other) const;
     bool operator!=(const Item &other) const;
+    operator float() const;
 
     //methods
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
@@ -60,5 +61,7 @@ public:
 
     bool Contains(std::string str);
 };
+
+std::ostream& operator<<(std::ostream& os, const Item& obj);
 
 #endif //STORE_ITEM_H

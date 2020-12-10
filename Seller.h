@@ -29,9 +29,13 @@ public:
 
     //operators
     operator std::string() const;
+    bool operator==(const Seller &other) const;
+    bool operator!=(const Seller &other) const;
 
     //methods
     bool Contains(std::string str);
 };
+
+std::ostream& operator<<(std::ostream& os, const Seller& obj);
 
 #endif //STORE_SELLER_H

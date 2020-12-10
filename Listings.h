@@ -27,8 +27,7 @@ public:
 
     //Operators
     Item& operator[] (int index);
-    Listings operator+ (const Item& item);
-    operator int();
+    operator int() const;
 
     //Methods
     void Table();

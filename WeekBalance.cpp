@@ -44,6 +44,9 @@ DayBalance& WeekBalance::operator[](int index)
         return days[index];
     }
 }
+WeekBalance::operator float() const {
+    return total;
+}
 
 void WeekBalance::Table()
 {

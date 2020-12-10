@@ -87,6 +87,10 @@ bool Item::setPrice(float value)
     }
 }
 
+std::string Item::operator+(const std::string &str) const {
+    return str + std::string(*this);
+}
+
 Item::operator std::string() const
 {
     return name;
@@ -104,6 +108,11 @@ bool Item::operator!=(const Item &other) const
            || (price != other.price);
 }
 
+Item::operator float() const
+{
+    return price;
+}
+
 bool Item::Contains(std::string str)
 {
     bool flag = false;
@@ -115,3 +124,7 @@ bool Item::Contains(std::string str)
     return flag;
 }
 
+std::ostream& operator<<(std::ostream& os, const Item& obj)
+{
+    return (os << std::string(obj));
+}

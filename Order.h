@@ -36,6 +36,10 @@ public:
     float getTotal();
     bool setTotal(float value);
 
+    //operators
+    bool operator==(const Order &other) const;
+    bool operator!=(const Order &other) const;
+
     //methods
     void Show();
 

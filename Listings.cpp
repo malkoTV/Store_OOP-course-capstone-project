@@ -152,12 +152,6 @@ void Listings::Table()
     }
 }
 
-Listings Listings::operator+ (const Item& item)
-{
-    this->AddItem(const_cast<Item &>(item));
-    return Listings(this->items, size);
-}
-
 void Listings::AddItem(Item& item)
 {
     size++;
@@ -171,7 +165,8 @@ void Listings::AddItem(Item& item)
     items[size - 1] = item;
 }
 
-Listings::operator int() {
+Listings::operator int() const
+{
     return size;
 }
 

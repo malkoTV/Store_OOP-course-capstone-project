@@ -85,6 +85,18 @@ bool Order::setTotal(float value)
     }
 }
 
+bool Order::operator==(const Order &other) const
+{
+    return (date == other.date) && (seller == other.seller)
+    && (item == other.item) && (total == other.total) && (amount == other.amount);
+}
+
+bool Order::operator!=(const Order &other) const
+{
+    return (date != other.date) || (seller != other.seller)
+           || (item != other.item) || (total != other.total) || (amount != other.amount);
+}
+
 void Order::Show()
 {
     int fieldLength = 25;
@@ -177,4 +189,5 @@ bool Order::Contains(std::string str)
     }
     return flag;
 }
+
 

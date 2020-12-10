@@ -26,6 +26,7 @@ public:
 
     //operators
     DayBalance& operator[](int index);
+    operator float() const;
 
     //methods
     void Table();

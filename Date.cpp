@@ -188,9 +188,8 @@ Date Date::operator--()
     return Date(day, month);
 }
 
-template<class T> std::string operator+(std::string str, T& object)
+std::ostream& operator<<(std::ostream& os, const Date& obj)
 {
-    return (object + str);
+    return (os << std::string(obj));
 }
-
 

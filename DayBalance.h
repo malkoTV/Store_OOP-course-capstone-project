@@ -25,6 +25,8 @@ public:
 
     //operators
     Order& operator[](int index);
+    operator int() const;
+    operator float() const;
 
     //methods
     void Table();

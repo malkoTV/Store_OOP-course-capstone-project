@@ -51,6 +51,14 @@ Order& DayBalance::operator[](int index)
     }
 }
 
+DayBalance::operator int() const {
+    return size;
+}
+
+DayBalance::operator float() const {
+    return total;
+}
+
 void DayBalance::Table()
 {
     int fieldLength = 25;
@@ -191,3 +199,4 @@ bool DayBalance::Search(std::string str, Order *order, int &size)
     size = iter;
     return flag;
 }
+

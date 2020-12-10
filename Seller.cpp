@@ -74,6 +74,16 @@ Seller::operator std::string() const
     return lastName + " " + firstName;
 }
 
+bool Seller::operator==(const Seller &other) const
+{
+    return (firstName == other.firstName) && (lastName == other.lastName) && (age == other.age);
+}
+
+bool Seller::operator!=(const Seller &other) const
+{
+    return (firstName != other.firstName) || (lastName != other.lastName) || (age != other.age);
+}
+
 bool Seller::Contains(std::string str)
 {
     bool flag = false;
@@ -84,4 +94,9 @@ bool Seller::Contains(std::string str)
     }
 
     return flag;
+}
+
+std::ostream& operator<<(std::ostream& os, const Seller& obj)
+{
+    return (os << std::string(obj));
 }

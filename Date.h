@@ -50,4 +50,6 @@ public:
     }
 };
 
+std::ostream& operator<<(std::ostream& os, const Date& obj);
+
 #endif //STORE_DATE_H
