@@ -9,6 +9,7 @@ Seller::Seller()
 {
     lastName = "default";
     firstName = "default";
+    age = 18;
 }
 
 std::string Seller::getLastName()
@@ -77,11 +78,9 @@ bool Seller::Contains(std::string str)
 {
     bool flag = false;
 
-    std::cout << str << "Entered seller c\n";
     if(str == lastName || str == firstName)
     {
         flag = true;
-        std::cout << "Entered if\n";
     }
 
     return flag;

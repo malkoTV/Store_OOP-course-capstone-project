@@ -21,13 +21,13 @@ public:
     Order();
 
     //getters & setters
-    Date getDate();
+    Date* getDate();
     bool setDate(Date value);
 
-    Seller getSeller();
+    Seller* getSeller();
     bool setSeller(Seller value);
 
-    Item getItem();
+    Item* getItem();
     bool setItem(Item value);
 
     float getAmount();
@@ -37,6 +37,8 @@ public:
     bool setTotal(float value);
 
     //methods
+    void Show();
+
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
     bool Contains(T var)
     {

@@ -18,7 +18,6 @@ DayBalance::DayBalance(int size) : Balance()
 {
     this->size = size;
     orders = new Order[size];
-    total = 0.0;
 }
 
 Order* DayBalance::getOrders()
@@ -102,14 +101,14 @@ void DayBalance::Table()
     for(int i = 0; i < size; i++)
     {
         ShowUtils::print(179); // vertical line
-        printf("   %s", std::string(orders[i].getDate()).c_str());
-        ShowUtils::line(255, fieldLength - 2 - std::string(orders[i].getDate()).length() - 1);
+        printf("   %s", std::string(*orders[i].getDate()).c_str());
+        ShowUtils::line(255, fieldLength - 2 - std::string(*orders[i].getDate()).length() - 1);
         ShowUtils::print(179); // vertical line
-        printf("   %s", std::string(orders[i].getSeller()).c_str());
-        ShowUtils::line(255, fieldLength - 2 - std::string(orders[i].getSeller()).length() - 1);
+        printf("   %s", std::string(*orders[i].getSeller()).c_str());
+        ShowUtils::line(255, fieldLength - 2 - std::string(*orders[i].getSeller()).length() - 1);
         ShowUtils::print(179); // vertical line
-        printf("%s", std::string(orders[i].getItem()).c_str());
-        ShowUtils::line(255, fieldLength - 1 - std::string(orders[i].getItem()).length() - 6);
+        printf("%s", std::string(*orders[i].getItem()).c_str());
+        ShowUtils::line(255, fieldLength - 1 - std::string(*orders[i].getItem()).length() - 6);
         printf("X%5.3f ", orders[i].getAmount());
         ShowUtils::print(179); // vertical line
         ShowUtils::line(255, fieldLength - 5);
@@ -170,5 +169,25 @@ bool DayBalance::Contains(std::string str)
         }
     }
 
+    return flag;
+}
+
+bool DayBalance::Search(std::string str, Order *order, int &size)
+{
+    //todo use exception handling
+    bool flag = false;
+    int iter = 0;
+
+    for(int i = 0; i < this->size && iter < size; i++)
+    {
+        if(orders[i].Contains(str))
+        {
+            flag = true;
+            order[iter] = orders[i];
+            iter++;
+        }
+    }
+
+    size = iter;
     return flag;
 }

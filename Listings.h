@@ -33,6 +33,28 @@ public:
     //Methods
     void Table();
     void AddItem(Item& item);
+
+    bool Search(std::string str, Item* item, int& s);
+
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    bool Search(T num, Item* item, int& s)
+    {
+        bool flag = false;
+        int iter = 0;
+
+        for(int i = 0;  i < size && iter < s; i++)
+        {
+            if(items[i].Contains(num))
+            {
+                flag = true;
+                item[iter] = items[i];
+                iter++;
+            }
+        }
+
+        size = iter;
+        return flag;
+    }
 };
 
 #endif //STORE_LISTINGS_H

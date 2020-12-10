@@ -32,7 +32,26 @@ public:
     float AvgOrderCount();
     float AvgOrderSum();
     bool Search(std::string str, DayBalance* dayBalance, int& size);
-    bool Search(int num, DayBalance* dayBalance, int& size);
+
+    template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+    bool Search(T num, DayBalance* dayBalance, int& size)
+    {
+        bool flag = false;
+        int iter = 0;
+
+        for(int i = 0;  i < W && iter < size; i++)
+        {
+            if(days[i].Contains(num))
+            {
+                flag = true;
+                dayBalance[iter] = days[i];
+                iter++;
+            }
+        }
+
+        size = iter;
+        return flag;
+    }
 };
 
 #endif //STORE_WEEKBALANCE_H

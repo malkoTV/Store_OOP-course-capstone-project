@@ -3,6 +3,7 @@
 //
 
 #include "Order.h"
+#include "ShowUtils.h"
 
 Order::Order()
 {
@@ -13,9 +14,9 @@ Order::Order()
     total = 0.0;
 }
 
-Date Order::getDate()
+Date* Order::getDate()
 {
-    return date;
+    return &date;
 }
 
 bool Order::setDate(Date value)
@@ -24,9 +25,9 @@ bool Order::setDate(Date value)
     return true;
 }
 
-Seller Order::getSeller()
+Seller* Order::getSeller()
 {
-    return seller;
+    return &seller;
 }
 
 bool Order::setSeller(Seller value)
@@ -35,9 +36,9 @@ bool Order::setSeller(Seller value)
     return true;
 }
 
-Item Order::getItem()
+Item* Order::getItem()
 {
-    return item;
+    return &item;
 }
 
 bool Order::setItem(Item value)
@@ -84,6 +85,84 @@ bool Order::setTotal(float value)
     }
 }
 
+void Order::Show()
+{
+    int fieldLength = 25;
+    int fieldCount = 4; // field count
+
+    //headline
+    ShowUtils::print(218);
+    ShowUtils::line(196, fieldLength);
+
+    for(int i = 1; i < fieldCount; i++)
+    {
+        ShowUtils::print(194);
+        ShowUtils::line(196, fieldLength);
+    }
+
+    ShowUtils::print(191);
+    printf("\n");
+
+    //header
+    ShowUtils::print(179); // vertical line
+    printf("   %s", std::string("Date").c_str());
+    ShowUtils::line(255, fieldLength - 2 - std::string("Date").length() - 1);
+    ShowUtils::print(179); // vertical line
+    printf("   %s", std::string("Seller").c_str());
+    ShowUtils::line(255, fieldLength - 2 - std::string("Seller").length() - 1);
+    ShowUtils::print(179); // vertical line
+    printf("   %s", std::string("Item").c_str());
+    ShowUtils::line(255, fieldLength - 2 - std::string("Item").length() - 1);
+    ShowUtils::print(179); // vertical line
+    printf("   %s", std::string("Sum").c_str());
+    ShowUtils::line(255, fieldLength - 2 - std::string("Sum").length() - 1);
+    ShowUtils::print(179); // vertical line
+
+    printf("\n");
+
+    ShowUtils::print(198);
+    ShowUtils::line(205, fieldLength);
+
+    for(int i = 1; i < fieldCount; i++)
+    {
+        ShowUtils::print(216);
+        ShowUtils::line(205, fieldLength);
+    }
+
+    ShowUtils::print(181);
+    printf("\n");
+
+    ShowUtils::print(179); // vertical line
+    printf("   %s", std::string(date).c_str());
+    ShowUtils::line(255, fieldLength - 2 - std::string(date).length() - 1);
+    ShowUtils::print(179); // vertical line
+    printf("   %s", std::string(seller).c_str());
+    ShowUtils::line(255, fieldLength - 2 - std::string(seller).length() - 1);
+    ShowUtils::print(179); // vertical line
+    printf("%s", std::string(item).c_str());
+    ShowUtils::line(255, fieldLength - 1 - std::string(item).length() - 6);
+    printf("X%5.3f ", amount);
+    ShowUtils::print(179); // vertical line
+    ShowUtils::line(255, fieldLength - 5);
+    printf("%-5.2f", total);
+    ShowUtils::print(179); // vertical line
+
+    printf("\n");
+
+    //footer
+    ShowUtils::print(192);
+    ShowUtils::line(196, fieldLength);
+    for(int i = 1; i < fieldCount; i++)
+    {
+        ShowUtils::print(193);
+        ShowUtils::line(196, fieldLength);
+    }
+
+    ShowUtils::print(217);
+
+    printf("\n");
+}
+
 bool Order::Contains(std::string str)
 {
     bool flag = false;
@@ -92,5 +171,10 @@ bool Order::Contains(std::string str)
     {
         flag = true;
     }
+    else if(item.Contains(str))
+    {
+        flag = true;
+    }
     return flag;
 }
+

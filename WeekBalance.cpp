@@ -180,28 +180,9 @@ bool WeekBalance::Search(std::string str, DayBalance* dayBalance, int& size)
             flag = true;
             dayBalance[iter] = days[i];
             iter++;
-            std::cout << "Entered if\n";
         }
     }
 
+    size = iter;
     return flag;
 }
-
-bool WeekBalance::Search(int num, DayBalance* dayBalance, int& size)
-{
-    bool flag = false;
-    int iter = 0;
-
-    for(int i = 0;  i < W && iter < size; i++)
-    {
-        if(days[i].Contains(num))
-        {
-            flag = true;
-            dayBalance[i] = days[i];
-        }
-    }
-
-    return flag;
-}
-
-

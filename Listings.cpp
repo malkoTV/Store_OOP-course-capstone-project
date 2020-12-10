@@ -175,3 +175,23 @@ Listings::operator int() {
     return size;
 }
 
+bool Listings::Search(std::string str, Item *item, int &s)
+{
+    //todo use exception handling
+    bool flag = false;
+    int iter = 0;
+
+    for(int i = 0; i < size && iter < size; i++)
+    {
+        if(items[i].Contains(str))
+        {
+            flag = true;
+            item[iter] = items[i];
+            iter++;
+        }
+    }
+
+    size = iter;
+    return flag;
+}
+
