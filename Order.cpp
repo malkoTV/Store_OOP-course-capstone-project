@@ -3,7 +3,7 @@
 //
 
 #include "Order.h"
-#include "ShowUtils.h"
+#include "Utils.h"
 
 Order::Order()
 {
@@ -12,6 +12,33 @@ Order::Order()
     item = Item();
     amount = 0.0;
     total = 0.0;
+}
+
+Order::Order(Date date, Seller seller, Item item, float amount)
+{
+    this->date = date;
+    this->seller = seller;
+    this->item = item;
+
+    if(amount > 0)
+    {
+        this->amount = amount;
+    }
+    else
+    {
+        this->amount = 1.0;
+    }
+
+    CalculateTotal();
+}
+
+Order::Order(const Order &other)
+{
+    date = other.date;
+    seller = other.seller;
+    item = other.item;
+    amount = other.amount;
+    total = other.total;
 }
 
 Date* Order::getDate()
@@ -44,6 +71,7 @@ Item* Order::getItem()
 bool Order::setItem(Item value)
 {
     item = value;
+    CalculateTotal();
     return true;
 }
 
@@ -57,11 +85,13 @@ bool Order::setAmount(float value)
     if(value > 0 && value < 10000)
     {
         amount = value;
+        CalculateTotal();
         return true;
     }
     else
     {
         amount = 0;
+        total = 0;
         return false;
     }
 }
@@ -69,20 +99,6 @@ bool Order::setAmount(float value)
 float Order::getTotal()
 {
     return total;
-}
-
-bool Order::setTotal(float value)
-{
-    if(value >= 0)
-    {
-        total = value;
-        return true;
-    }
-    else
-    {
-        total = 0;
-        return false;
-    }
 }
 
 bool Order::operator==(const Order &other) const
@@ -97,80 +113,84 @@ bool Order::operator!=(const Order &other) const
            || (item != other.item) || (total != other.total) || (amount != other.amount);
 }
 
+void Order::CalculateTotal() {
+    total = (float)item * amount;
+}
+
 void Order::Show()
 {
     int fieldLength = 25;
     int fieldCount = 4; // field count
 
     //headline
-    ShowUtils::print(218);
-    ShowUtils::line(196, fieldLength);
+    Utils::print(218);
+    Utils::line(196, fieldLength);
 
     for(int i = 1; i < fieldCount; i++)
     {
-        ShowUtils::print(194);
-        ShowUtils::line(196, fieldLength);
+        Utils::print(194);
+        Utils::line(196, fieldLength);
     }
 
-    ShowUtils::print(191);
+    Utils::print(191);
     printf("\n");
 
     //header
-    ShowUtils::print(179); // vertical line
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Date").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Date").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Date").length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Seller").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Seller").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Seller").length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Item").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Item").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Item").length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Sum").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Sum").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Sum").length() - 1);
+    Utils::print(179); // vertical line
 
     printf("\n");
 
-    ShowUtils::print(198);
-    ShowUtils::line(205, fieldLength);
+    Utils::print(198);
+    Utils::line(205, fieldLength);
 
     for(int i = 1; i < fieldCount; i++)
     {
-        ShowUtils::print(216);
-        ShowUtils::line(205, fieldLength);
+        Utils::print(216);
+        Utils::line(205, fieldLength);
     }
 
-    ShowUtils::print(181);
+    Utils::print(181);
     printf("\n");
 
-    ShowUtils::print(179); // vertical line
+    Utils::print(179); // vertical line
     printf("   %s", std::string(date).c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string(date).length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string(date).length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string(seller).c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string(seller).length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string(seller).length() - 1);
+    Utils::print(179); // vertical line
     printf("%s", std::string(item).c_str());
-    ShowUtils::line(255, fieldLength - 1 - std::string(item).length() - 6);
+    Utils::line(255, fieldLength - 1 - std::string(item).length() - 6);
     printf("X%5.3f ", amount);
-    ShowUtils::print(179); // vertical line
-    ShowUtils::line(255, fieldLength - 5);
+    Utils::print(179); // vertical line
+    Utils::line(255, fieldLength - 5);
     printf("%-5.2f", total);
-    ShowUtils::print(179); // vertical line
+    Utils::print(179); // vertical line
 
     printf("\n");
 
     //footer
-    ShowUtils::print(192);
-    ShowUtils::line(196, fieldLength);
+    Utils::print(192);
+    Utils::line(196, fieldLength);
     for(int i = 1; i < fieldCount; i++)
     {
-        ShowUtils::print(193);
-        ShowUtils::line(196, fieldLength);
+        Utils::print(193);
+        Utils::line(196, fieldLength);
     }
 
-    ShowUtils::print(217);
+    Utils::print(217);
 
     printf("\n");
 }
@@ -189,5 +209,3 @@ bool Order::Contains(std::string str)
     }
     return flag;
 }
-
-

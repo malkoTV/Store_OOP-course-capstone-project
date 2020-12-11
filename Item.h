@@ -26,6 +26,7 @@ private:
 public:
     Item();
     Item(std::string name, ItemType type, float price);
+    Item(const Item &other);
 
     //getters & setters
     std::string getName();

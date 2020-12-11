@@ -15,6 +15,7 @@ private:
 public:
     Date();
     Date(int day, int month);
+    Date(const Date& other);
 
     //getters & setters
     int getDay();
@@ -31,8 +32,6 @@ public:
     bool operator>(const Date &other) const;
     bool operator<=(const Date &other) const;
     bool operator>=(const Date &other) const;
-    Date operator++();
-    Date operator--();
 
     operator std::string() const;
 

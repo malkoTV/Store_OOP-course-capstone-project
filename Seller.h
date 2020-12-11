@@ -16,6 +16,8 @@ private:
 public:
     //constructors
     Seller();
+    Seller(std::string lastName, std::string firstName, int age);
+    Seller(const Seller& other);
 
     //getters & setters
     std::string getLastName();

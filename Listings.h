@@ -19,11 +19,12 @@ public:
     Listings();
     Listings(Item* items, int size);
     Listings(int size);
+    Listings(const Listings& other);
     ~Listings();
 
     //getters & setters
     Item* getItems();
-    bool setItems(Item *&value);
+    bool setItems(Item *value, int size);
 
     //Operators
     Item& operator[] (int index);

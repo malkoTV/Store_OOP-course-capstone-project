@@ -12,6 +12,43 @@ Seller::Seller()
     age = 18;
 }
 
+Seller::Seller(std::string lastName, std::string firstName, int age)
+{
+    if(lastName != "")
+    {
+        this->lastName = lastName;
+    }
+    else
+    {
+        this->lastName = "default";
+    }
+
+    if(firstName != "")
+    {
+        this->firstName = firstName;
+    }
+    else
+    {
+        this->firstName = "default";
+    }
+
+    if(age >= 18 && age < 120)
+    {
+        this->age = age;
+    }
+    else
+    {
+        this->age = 18;
+    }
+}
+
+Seller::Seller(const Seller &other)
+{
+    lastName = other.lastName;
+    firstName = other.firstName;
+    age = other.age;
+}
+
 std::string Seller::getLastName()
 {
     return lastName;

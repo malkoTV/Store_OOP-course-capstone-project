@@ -3,9 +3,11 @@
 //
 
 #include "DayBalance.h"
-#include "ShowUtils.h"
+#include "Utils.h"
 #include "Exceptions/NegIdxException.h"
 #include "Exceptions/LargeIdxException.h"
+#include "Exceptions/NegSizeException.h"
+#include "Exceptions/ZeroSizeException.h"
 
 DayBalance::DayBalance() : Balance()
 {
@@ -16,8 +18,37 @@ DayBalance::DayBalance() : Balance()
 
 DayBalance::DayBalance(int size) : Balance()
 {
-    this->size = size;
+    if(size > 0)
+    {
+        this->size = size;
+    }
+    else
+    {
+        this->size = 1;
+    }
+
+    orders = new Order[this->size];
+}
+
+DayBalance::DayBalance(Order *value, int size) : Balance()
+{
+    if(size > 0)
+    {
+        this->size = size;
+    }
+    else
+    {
+        this->size = 1;
+    }
+
+    Utils::copy(value, orders, this->size);
+}
+
+DayBalance::DayBalance(const DayBalance &other) : Balance()
+{
+    size = other.size;
     orders = new Order[size];
+    Utils::copy(other.orders, orders, size);
 }
 
 Order* DayBalance::getOrders()
@@ -25,9 +56,18 @@ Order* DayBalance::getOrders()
     return orders;
 }
 
-bool DayBalance::setOrders(Order* value)
+bool DayBalance::setOrders(Order* value, int size)
 {
-    orders = value;
+    if(size > 0)
+    {
+        this->size = size;
+    }
+    else
+    {
+        this->size = 1;
+    }
+
+    Utils::copy(value, orders, this->size);
     return true;
 }
 
@@ -65,102 +105,102 @@ void DayBalance::Table()
     int fieldCount = 4; // field count
 
     //headline
-    ShowUtils::print(218);
-    ShowUtils::line(196, fieldLength);
+    Utils::print(218);
+    Utils::line(196, fieldLength);
 
     for(int i = 1; i < fieldCount; i++)
     {
-        ShowUtils::print(194);
-        ShowUtils::line(196, fieldLength);
+        Utils::print(194);
+        Utils::line(196, fieldLength);
     }
 
-    ShowUtils::print(191);
+    Utils::print(191);
     printf("\n");
 
     //header
-    ShowUtils::print(179); // vertical line
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Date").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Date").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Date").length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Seller").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Seller").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Seller").length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Item").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Item").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Item").length() - 1);
+    Utils::print(179); // vertical line
     printf("   %s", std::string("Sum").c_str());
-    ShowUtils::line(255, fieldLength - 2 - std::string("Sum").length() - 1);
-    ShowUtils::print(179); // vertical line
+    Utils::line(255, fieldLength - 2 - std::string("Sum").length() - 1);
+    Utils::print(179); // vertical line
 
     printf("\n");
 
-    ShowUtils::print(198);
-    ShowUtils::line(205, fieldLength);
+    Utils::print(198);
+    Utils::line(205, fieldLength);
 
     for(int i = 1; i < fieldCount; i++)
     {
-        ShowUtils::print(216);
-        ShowUtils::line(205, fieldLength);
+        Utils::print(216);
+        Utils::line(205, fieldLength);
     }
 
-    ShowUtils::print(181);
+    Utils::print(181);
     printf("\n");
 
     for(int i = 0; i < size; i++)
     {
-        ShowUtils::print(179); // vertical line
+        Utils::print(179); // vertical line
         printf("   %s", std::string(*orders[i].getDate()).c_str());
-        ShowUtils::line(255, fieldLength - 2 - std::string(*orders[i].getDate()).length() - 1);
-        ShowUtils::print(179); // vertical line
+        Utils::line(255, fieldLength - 2 - std::string(*orders[i].getDate()).length() - 1);
+        Utils::print(179); // vertical line
         printf("   %s", std::string(*orders[i].getSeller()).c_str());
-        ShowUtils::line(255, fieldLength - 2 - std::string(*orders[i].getSeller()).length() - 1);
-        ShowUtils::print(179); // vertical line
+        Utils::line(255, fieldLength - 2 - std::string(*orders[i].getSeller()).length() - 1);
+        Utils::print(179); // vertical line
         printf("%s", std::string(*orders[i].getItem()).c_str());
-        ShowUtils::line(255, fieldLength - 1 - std::string(*orders[i].getItem()).length() - 6);
+        Utils::line(255, fieldLength - 1 - std::string(*orders[i].getItem()).length() - 6);
         printf("X%5.3f ", orders[i].getAmount());
-        ShowUtils::print(179); // vertical line
-        ShowUtils::line(255, fieldLength - 5);
+        Utils::print(179); // vertical line
+        Utils::line(255, fieldLength - 5);
         printf("%-5.2f", orders[i].getTotal());
-        ShowUtils::print(179); // vertical line
+        Utils::print(179); // vertical line
 
         printf("\n");
 
-        ShowUtils::print(195);
-        ShowUtils::line(196, fieldLength);
+        Utils::print(195);
+        Utils::line(196, fieldLength);
         for(int i = 1; i < fieldCount; i++)
         {
-            ShowUtils::print(197);
-            ShowUtils::line(196, fieldLength);
+            Utils::print(197);
+            Utils::line(196, fieldLength);
         }
 
-        ShowUtils::print(180);
+        Utils::print(180);
 
         printf("\n");
     }
 
 
-    ShowUtils::print(179);
+    Utils::print(179);
     for(int i = 1; i < fieldCount - 1; i++)
     {
-        ShowUtils::line(255, fieldLength);
-        ShowUtils::print(179);
+        Utils::line(255, fieldLength);
+        Utils::print(179);
     }
     printf(" %23s  ", "Total");
-    ShowUtils::print(179);
+    Utils::print(179);
     printf("%25.2f ", total);
-    ShowUtils::print(179);
+    Utils::print(179);
     printf("\n");
 
     //footer
-    ShowUtils::print(192);
-    ShowUtils::line(196, fieldLength);
+    Utils::print(192);
+    Utils::line(196, fieldLength);
     for(int i = 1; i < fieldCount; i++)
     {
-        ShowUtils::print(193);
-        ShowUtils::line(196, fieldLength);
+        Utils::print(193);
+        Utils::line(196, fieldLength);
     }
 
-    ShowUtils::print(217);
+    Utils::print(217);
 
     printf("\n");
 }
@@ -182,7 +222,11 @@ bool DayBalance::Contains(std::string str)
 
 bool DayBalance::Search(std::string str, Order *order, int &size)
 {
-    //todo use exception handling
+    if(size < 0)
+    {
+        throw NegSizeException();
+    }
+
     bool flag = false;
     int iter = 0;
 
@@ -199,4 +243,3 @@ bool DayBalance::Search(std::string str, Order *order, int &size)
     size = iter;
     return flag;
 }
-

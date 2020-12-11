@@ -18,6 +18,8 @@ private:
 public:
     //constructors & destructors
     WeekBalance();
+    WeekBalance(DayBalance* days);
+    WeekBalance(const WeekBalance& other);
     ~WeekBalance();
 
     //getters & setters
@@ -37,6 +39,11 @@ public:
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
     bool Search(T num, DayBalance* dayBalance, int& size)
     {
+        if(size < 0)
+        {
+            throw NegSizeException();
+        }
+
         bool flag = false;
         int iter = 0;
 

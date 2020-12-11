@@ -8,6 +8,7 @@
 #include <list>
 #include "Order.h"
 #include "Balance.h"
+#include "Exceptions/NegSizeException.h"
 
 class DayBalance : public Balance
 {
@@ -17,10 +18,12 @@ private:
 public:
     DayBalance();
     DayBalance(int size);
+    DayBalance(Order* value, int size);
+    DayBalance(const DayBalance& other);
 
     //getters & setters
     Order* getOrders();
-    bool setOrders(Order* value);
+    bool setOrders(Order* value, int size);
     int getSize();
 
     //operators
@@ -36,6 +39,11 @@ public:
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
     bool Search(T num, Order* order, int& s)
     {
+        if(s < 0)
+        {
+            throw NegSizeException();
+        }
+
         bool flag = false;
         int iter = 0;
 

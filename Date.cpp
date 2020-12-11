@@ -18,6 +18,12 @@ Date::Date(int day, int month)
     this->month = month;
 }
 
+Date::Date(const Date &other)
+{
+    day = other.day;
+    month = other.month;
+}
+
 //getters & setters
 int Date::getDay()
 {
@@ -155,37 +161,6 @@ bool Date::operator>=(const Date &other) const
         }
     }
     return false;
-}
-
-Date Date::operator++()
-{
-    //todo advanced checking
-    day++;
-    if(day > 31)
-    {
-        month++;
-        if(month > 12)
-        {
-            month = 1;
-        }
-        day = 1;
-    }
-    return Date(day, month);
-}
-
-Date Date::operator--()
-{
-    day--;
-    if(day < 1)
-    {
-        month--;
-        if(month < 1)
-        {
-            month = 12;
-        }
-        day = 31;
-    }
-    return Date(day, month);
 }
 
 std::ostream& operator<<(std::ostream& os, const Date& obj)

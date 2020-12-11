@@ -16,7 +16,6 @@ public:
 
     //getters & setters
     float getTotal();
-    bool setTotal(float value);
 };
 
 #endif //STORE_BALANCE_H

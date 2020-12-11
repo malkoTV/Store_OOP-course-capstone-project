@@ -19,6 +19,8 @@ private:
     float total;
 public:
     Order();
+    Order(Date date, Seller seller, Item item, float amount = 1.0);
+    Order(const Order& other);
 
     //getters & setters
     Date* getDate();
@@ -34,13 +36,13 @@ public:
     bool setAmount(float value);
 
     float getTotal();
-    bool setTotal(float value);
 
     //operators
     bool operator==(const Order &other) const;
     bool operator!=(const Order &other) const;
 
     //methods
+    void CalculateTotal();
     void Show();
 
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>

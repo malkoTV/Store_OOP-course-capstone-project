@@ -36,6 +36,13 @@ Item::Item(std::string name, ItemType type, float price)
     }
 }
 
+Item::Item(const Item &other)
+{
+    name = other.name;
+    type = other.type;
+    price = other.price;
+}
+
 //getters & setters
 std::string Item::getName()
 {
