@@ -11,19 +11,15 @@
 class IndexingException : public ArgumentException {
 protected:
     int index;
-    std::string aMessage;
-    std::string getAMessage(); //не може бути викликаний бо індексна помилка не має виду (індекс негативний чи завеликий)
-
 public:
     //constructors
-    IndexingException();
     IndexingException(int index);
 
     //getters & setters
     int getIndex();
 
     //methods
-    virtual void PrintMessage();
+    void PrintMessage();
 };
 
 

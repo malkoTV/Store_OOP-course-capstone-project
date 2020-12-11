@@ -11,13 +11,17 @@
 class ArgumentException : public std::exception {
 protected:
     std::string message;
+    std::string aMessage;
+
 public:
     //constructors
     ArgumentException();
 
     //getters & setters
     std::string getMessage();
+    std::string  getAMessage();
 
+public:
     //methods
     virtual void PrintMessage();
 };

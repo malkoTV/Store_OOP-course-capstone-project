@@ -16,3 +16,7 @@ std::string ArgumentException::getMessage() {
 void ArgumentException::PrintMessage() {
     std::cout << message << std::endl;
 }
+
+std::string ArgumentException::getAMessage() {
+    return aMessage;
+}

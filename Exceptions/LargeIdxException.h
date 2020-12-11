@@ -10,12 +10,7 @@
 class LargeIdxException : public IndexingException {
 public:
     //constructors
-    LargeIdxException();
     LargeIdxException(int idx);
-
-    //methods
-    void PrintMessage();
-
 };
 
 

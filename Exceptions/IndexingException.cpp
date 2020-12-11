@@ -5,10 +5,6 @@
 #include <iostream>
 #include "IndexingException.h"
 
-IndexingException::IndexingException() : ArgumentException() {
-    message = "Invalid index";
-}
-
 IndexingException::IndexingException(int index) : ArgumentException() {
     message = "Invalid index";
     this->index = index;
@@ -22,8 +18,8 @@ void IndexingException::PrintMessage()
 {
     std::cout << message << std::endl;
     std::cout << "No element found at location " << index << std::endl;
-}
-
-std::string IndexingException::getAMessage() {
-    return aMessage;
+    if(aMessage != "")
+    {
+        std::cout << aMessage << std::endl;
+    }
 }

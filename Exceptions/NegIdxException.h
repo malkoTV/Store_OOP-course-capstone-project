@@ -12,9 +12,6 @@ public:
     //constructors
     NegIdxException();
     NegIdxException(int idx);
-
-    //methods
-    void PrintMessage();
 };
 
 
