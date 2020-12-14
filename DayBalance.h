@@ -33,7 +33,7 @@ public:
 
     //methods
     void Table();
-
+    void AddOrder(Order order);
     bool Search(std::string str, Order* order, int& size);
 
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>

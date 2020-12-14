@@ -205,6 +205,15 @@ void DayBalance::Table()
     printf("\n");
 }
 
+void DayBalance::AddOrder(Order order) {
+    size++;
+    Order* temp = new Order[size];
+    Utils::copy(orders, temp, size - 1);
+    temp[size - 1] = order;
+    delete [] orders;
+    orders = temp;
+}
+
 bool DayBalance::Contains(std::string str)
 {
     bool flag = false;

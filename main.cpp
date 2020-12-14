@@ -16,7 +16,10 @@
 
 using namespace std;
 
+void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances);
 void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances);
+void ReadFile(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances);
+void WriteFile(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances);
 void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances);
 
 template<class T> void WriteTextFile(T* object, int size, string name = "New file", string path = "", string format = ".txt");
@@ -27,66 +30,7 @@ template<class T> void ReadBinaryFile(T* object, int size, string name = "New fi
 
 int main() {
 
-    Item item = Item();
-    cout << "Item " << item << endl;
-
-    Date date = Date();
-    cout << "Date " << date << endl;
-
-
-    Listings shopItems = Listings(5);
-    //shopItems.Table();
-    cout << "Item count " << (int)shopItems << endl;
-    try{
-        shopItems[10];
-    }
-    catch(NegIdxException ex)
-    {
-        ex.PrintMessage();
-    }
-    catch(LargeIdxException ex)
-    {
-        ex.PrintMessage();
-    }
-
-
-    DayBalance balance = DayBalance(5);
-    //balance.Table();
-    try{
-        balance[12];
-    }
-    catch(NegIdxException ex)
-    {
-        ex.PrintMessage();
-    }
-    catch(LargeIdxException ex)
-    {
-        ex.PrintMessage();
-    }
-
-    WeekBalance weekBalance = WeekBalance();
-    //weekBalance.Table();
-    try{
-        weekBalance[-2];
-    }
-    catch(NegIdxException ex)
-    {
-        ex.PrintMessage();
-    }
-    catch(LargeIdxException ex)
-    {
-        ex.PrintMessage();
-    }
-
-
-    Listings listings = Listings();
-    DayBalance* dayBalances = new DayBalance[N];
-
-
-    int temp = 1;
-    //cout << "Enter 1 to go to menu\n";
-    //cin >> temp;
-    while(temp)
+    while(true)
     {
         cout << "Menu" << endl;
         cout << "0 - Exit" << endl;
@@ -95,7 +39,6 @@ int main() {
         cout << "3 - Read Object from file" << endl;
         cout << "4 - Write Object to file" << endl;
         cout << "5 - Search in..." << endl;
-        cout << "6 - Edit Object" << endl;
 
         char t;
         char o;
@@ -107,28 +50,20 @@ int main() {
             case '0':
                 return 0;
             case '1':
+                Create(&listings, &weekBalance, dayBalances);
                 break;
             case '2':
                 ShowTable(&listings, &weekBalance, dayBalances);
                 break;
             case '3':
-                cout << "What do you want to read from file?" << endl;
-                cout << "0 - quit show\n"
-                     << "1 - Listings\n"
-                     << "2 - Week balance\n"
-                     << "3 - Day balance (from array)\n";
-                cin >> o;
-                switch(o)
-                {
-
-                }
+                ReadFile(&listings, &weekBalance, dayBalances);
                 break;
             case '4':
+                WriteFile(&listings, &weekBalance, dayBalances);
                 break;
             case '5':
                 Search(&listings, &weekBalance, dayBalances);
                 break;
-            case '6':
                 break;
             default:
                 cout << "Invalid input" << endl;
@@ -137,6 +72,137 @@ int main() {
     }
 
     return 0;
+}
+
+void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances)
+{
+    char o, t;
+
+    cout << "Where do you want to store your object?" << endl;
+    cout << "0 - quit writing to file\n"
+         << "1 - Listings\n"
+         << "2 - Week balance\n"
+         << "3 - Day balance (from array)\n";
+    cin >> o;
+
+    switch(o)
+    {
+        case '0':
+            return;
+        case '1':
+            cout << "Do you want to input values or create default?\ni - input\td - default";
+            if(t == 'i')
+            {
+                string str;
+                ItemType itemType;
+                float price;
+                char type;
+
+                cout << "Enter the name" << endl;
+                cin >> str;
+                cout << "Enter the type: i - sold individually, b - by weight" << endl;
+                cin >> type;
+                if(type == 'b')
+                {
+                    itemType = individually;
+                }
+                else
+                {
+                    itemType = byWeight;
+                }
+                cout << "Enter the price" << endl;
+                cin >> price;
+                Item holder = Item(str, itemType, price);
+
+            }
+            else if(t == 'd')
+            {
+                Item holder = Item();
+                listings->AddItem(holder);
+            }
+
+            break;
+        case '2':
+            try{
+                cout << "What day do you want to edit? from 0 to 6" << endl;
+                int idx = -1;
+                cin >> idx;
+                cout << "Do you want to input values or create default?\ni - input\td - default";
+                Order order;
+                if(t == 'i')
+                {
+                    string str1;
+                    string str2;
+                    float amount = 1.0;
+                    int i = -1;
+
+                    cout << "Enter the first name" << endl;
+                    cin >> str1;
+                    cout << "Enter the last name" << endl;
+                    cin >> str2;
+                    cout << "Enter the price" << endl;
+                    cin >> amount;
+                    cout << "What item do you want to buy? (Enter index)" << endl;
+                    cin >> i;
+                    order = Order(Date(14, 12), Seller("Jane", "Smith"), listings->operator[](i), amount);
+                }
+                else if(t == 'd')
+                {
+                    order = Order();
+                }
+                (weekBalance->operator[](idx)).AddOrder(order);
+            }
+            catch(NegIdxException &ex)
+            {
+                ex.PrintMessage();
+            }
+            catch(LargeIdxException &ex)
+            {
+                ex.PrintMessage();
+            }
+            break;
+        case '3':
+            try{
+                cout << "What day do you want to edit? from 0 to 6" << endl;
+                int idx = -1;
+                cin >> idx;
+                cout << "Do you want to input values or create default?\ni - input\td - default";
+                Order order;
+                if(t == 'i')
+                {
+                    string str1;
+                    string str2;
+                    float amount = 1.0;
+                    int i = -1;
+
+                    cout << "Enter the first name" << endl;
+                    cin >> str1;
+                    cout << "Enter the last name" << endl;
+                    cin >> str2;
+                    cout << "Enter the price" << endl;
+                    cin >> amount;
+                    cout << "What item do you want to buy? (Enter index)" << endl;
+                    cin >> i;
+                    order = Order(Date(14, 12), Seller("Jane", "Smith"), listings->operator[](i), amount);
+                }
+                else if(t == 'd')
+                {
+                    order = Order();
+                }
+                dayBalances[idx].AddOrder(order);
+            }
+            catch(NegIdxException &ex)
+            {
+                ex.PrintMessage();
+            }
+            catch(LargeIdxException &ex)
+            {
+                ex.PrintMessage();
+            }
+            break;
+        default:
+            cout << "Invalid input" << endl;
+    }
 }
 
 void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances)
@@ -204,6 +270,120 @@ void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBala
             break;
     }
     spointer->Table();
+}
+
+void ReadFile(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances)
+{
+    char o, f;
+    cout << "What file do you want to read?" << endl;
+    cout << "0 - Text\n1 - Binary\n";
+    cin >> f;
+
+    cout << "What do you want to read from file?" << endl;
+    cout << "0 - quit writing to file\n"
+         << "1 - Listings\n"
+         << "2 - Week balance\n"
+         << "3 - Day balance (from array)\n";
+    cin >> o;
+    if(f == '0')
+    {
+        switch(o)
+        {
+            case '0':
+                return;
+            case '1':
+                ReadTextFile(listings, listings->operator int());
+                break;
+            case '2':
+                ReadTextFile(weekBalance, W);
+                break;
+            case '3':
+                ReadTextFile(dayBalances, N);
+                break;
+            default:
+                cout << "Invalid input" << endl;
+        }
+    }
+    else if(f == '1')
+    {
+        switch(o)
+        {
+            case '0':
+                return;
+            case '1':
+                ReadBinaryFile(listings, listings->operator int());
+                break;
+            case '2':
+                ReadBinaryFile(weekBalance, W);
+                break;
+            case '3':
+                ReadBinaryFile(dayBalances, N);
+                break;
+            default:
+                cout << "Invalid input" << endl;
+        }
+    }
+    else
+    {
+        cout << "Invalid input" << endl;
+    }
+}
+
+void WriteFile(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances)
+{
+    char o, f;
+    cout << "What file do you want to write?" << endl;
+    cout << "0 - Text\n1 - Binary\n";
+    cin >> f;
+
+    cout << "What do you want to write to file?" << endl;
+    cout << "0 - quit writing to file\n"
+         << "1 - Listings\n"
+         << "2 - Week balance\n"
+         << "3 - Day balance (from array)\n";
+    cin >> o;
+    if(f == '0')
+    {
+        switch(o)
+        {
+            case '0':
+                return;
+            case '1':
+                WriteTextFile(listings, listings->operator int());
+                break;
+            case '2':
+                WriteTextFile(weekBalance, W);
+                break;
+            case '3':
+                WriteTextFile(dayBalances, N);
+                break;
+            default:
+                cout << "Invalid input" << endl;
+        }
+    }
+    else if(f == '1')
+    {
+        switch(o)
+        {
+            case '0':
+                return;
+            case '1':
+                WriteBinaryFile(listings, listings->operator int());
+                break;
+            case '2':
+                WriteBinaryFile(weekBalance, W);
+                break;
+            case '3':
+                WriteBinaryFile(dayBalances, N);
+                break;
+            default:
+                cout << "Invalid input" << endl;
+        }
+    }
+    else
+    {
+        cout << "Invalid input" << endl;
+    }
 }
 
 void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalances)
