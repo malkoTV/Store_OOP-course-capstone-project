@@ -8,26 +8,16 @@
 #include "Exceptions/NegIdxException.h"
 #include "Exceptions/LargeIdxException.h"
 
-WeekBalance::WeekBalance() : Balance()
-{
-    days = new DayBalance[W];
-}
+WeekBalance::WeekBalance() : Balance(){ }
 
 WeekBalance::WeekBalance(DayBalance *days) : Balance()
 {
-    this->days = new DayBalance[W];
     Utils::copy(days, this->days, W);
 }
 
 WeekBalance::WeekBalance(const WeekBalance &other) : Balance()
 {
-    days = new DayBalance[W];
-    Utils::copy(other.days, days, W);
-}
-
-WeekBalance::~WeekBalance()
-{
-    delete [] days;
+    Utils::copy(other.days, this->days, W);
 }
 
 DayBalance* WeekBalance::getDays()

@@ -5,17 +5,7 @@
 #ifndef STORE_ITEM_H
 #define STORE_ITEM_H
 #include <iostream>
-
-enum ItemType { byWeight, individually };
-inline const std::string ToString(ItemType v)
-{
-    switch (v)
-    {
-        case byWeight:   return "By weight";
-        case individually:   return "Individually";
-        default:      return "[Unknown]";
-    }
-}
+#include "ItemType.h"
 
 class Item
 {
@@ -39,7 +29,6 @@ public:
     bool setPrice(float value);
 
     //operators
-    std::string operator+(const std::string& str) const;
     operator std::string() const;
     bool operator==(const Item &other) const;
     bool operator!=(const Item &other) const;

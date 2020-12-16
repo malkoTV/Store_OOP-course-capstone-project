@@ -94,10 +94,6 @@ bool Item::setPrice(float value)
     }
 }
 
-std::string Item::operator+(const std::string &str) const {
-    return str + std::string(*this);
-}
-
 Item::operator std::string() const
 {
     return name;

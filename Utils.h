@@ -15,7 +15,7 @@ public:
 
     //copying
     template<class T>
-    static void copy(T* from, T* to, int s)
+    static void copy(const T* from, T* to, int s)
     {
         for(int i = 0; i < s; i++)
         {

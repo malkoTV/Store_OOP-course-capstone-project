@@ -7,6 +7,7 @@
 #include "DayBalance.h"
 #include "WeekBalance.h"
 #include "Listings.h"
+#include "ItemType.h"
 
 #include "Exceptions/IndexingException.h"
 #include "Exceptions/LargeIdxException.h"
@@ -29,6 +30,11 @@ template<class T> void WriteBinaryFile(T* object, int size, string name = "New f
 template<class T> void ReadBinaryFile(T* object, int size, string name = "New file", string path = "", string format = ".dat");
 
 int main() {
+
+    int size = 12;
+    Listings listings = Listings(size);
+    WeekBalance weekBalance = WeekBalance();
+    DayBalance* dayBalances = new DayBalance[N];
 
     while(true)
     {
@@ -64,7 +70,6 @@ int main() {
             case '5':
                 Search(&listings, &weekBalance, dayBalances);
                 break;
-                break;
             default:
                 cout << "Invalid input" << endl;
         }
@@ -91,6 +96,7 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
             return;
         case '1':
             cout << "Do you want to input values or create default?\ni - input\td - default";
+            cin >> t;
             if(t == 'i')
             {
                 string str;
@@ -128,6 +134,7 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
                 int idx = -1;
                 cin >> idx;
                 cout << "Do you want to input values or create default?\ni - input\td - default";
+                cin >> t;
                 Order order;
                 if(t == 'i')
                 {
@@ -167,6 +174,7 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
                 int idx = -1;
                 cin >> idx;
                 cout << "Do you want to input values or create default?\ni - input\td - default";
+                cin >> t;
                 Order order;
                 if(t == 'i')
                 {
@@ -478,7 +486,7 @@ template<class T> void WriteTextFile(T* object, int size, string name, string pa
     output.exceptions(ifstream::badbit | ifstream::failbit);
 
     try{
-        output.open(filepath, ofstream::app);
+        output.open(filepath);
         for(int i = 0; i < size; i++)
         {
             output.write((char*)&object[i], sizeof(T));
@@ -512,6 +520,7 @@ template<class T> void ReadTextFile(T* object, int size, string name, string pat
     {
         cout << "Error opening/reading from file" << endl;
         cout << "Path: " << filepath << endl;
+        ex.what();
     }
 }
 

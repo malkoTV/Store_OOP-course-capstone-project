@@ -11,7 +11,7 @@
 class WeekBalance : public Balance
 {
 private:
-    DayBalance* days;
+    DayBalance days[W];
     std::string dayName[W] = {"Monday", "Tuesday", "Wednesday",
                               "Thursday", "Friday", "Saturday",
                               "Sunday"};
