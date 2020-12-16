@@ -35,6 +35,7 @@ public:
     void Table();
     void AddOrder(Order order);
     bool Search(std::string str, Order* order, int& size);
+    void CalculateTotal();
 
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
     bool Search(T num, Order* order, int& s)

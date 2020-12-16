@@ -42,6 +42,7 @@ DayBalance::DayBalance(Order *value, int size) : Balance()
     }
 
     Utils::copy(value, orders, this->size);
+    CalculateTotal();
 }
 
 DayBalance::DayBalance(const DayBalance &other) : Balance()
@@ -49,6 +50,7 @@ DayBalance::DayBalance(const DayBalance &other) : Balance()
     size = other.size;
     orders = new Order[size];
     Utils::copy(other.orders, orders, size);
+    total = other.total;
 }
 
 Order* DayBalance::getOrders()
@@ -68,6 +70,7 @@ bool DayBalance::setOrders(Order* value, int size)
     }
 
     Utils::copy(value, orders, this->size);
+    CalculateTotal();
     return true;
 }
 
@@ -212,6 +215,8 @@ void DayBalance::AddOrder(Order order) {
     temp[size - 1] = order;
     delete [] orders;
     orders = temp;
+
+    CalculateTotal();
 }
 
 bool DayBalance::Contains(std::string str)
@@ -251,4 +256,12 @@ bool DayBalance::Search(std::string str, Order *order, int &size)
 
     size = iter;
     return flag;
+}
+
+void DayBalance::CalculateTotal()
+{
+    for(int i = 0; i < size; i++)
+    {
+        total += orders[i].getTotal();
+    }
 }

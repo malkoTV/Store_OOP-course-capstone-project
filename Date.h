@@ -25,13 +25,8 @@ public:
     bool setMonth(int value);
 
     //operators
-    std::string operator+(const std::string& str) const;
     bool operator==(const Date &other) const;
     bool operator!=(const Date &other) const;
-    bool operator<(const Date &other) const;
-    bool operator>(const Date &other) const;
-    bool operator<=(const Date &other) const;
-    bool operator>=(const Date &other) const;
 
     operator std::string() const;
 
@@ -47,6 +42,9 @@ public:
 
         return flag;
     }
+
+private:
+    void Update();
 };
 
 std::ostream& operator<<(std::ostream& os, const Date& obj);

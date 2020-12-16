@@ -34,6 +34,7 @@ public:
     void Table();
     float AvgOrderCount();
     float AvgOrderSum();
+    void CalculateTotal();
     bool Search(std::string str, DayBalance* dayBalance, int& size);
 
     template <typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>

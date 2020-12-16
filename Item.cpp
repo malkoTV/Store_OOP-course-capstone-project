@@ -5,6 +5,8 @@
 #include <string>
 #include "Item.h"
 
+#define MAX 20
+
 //constructors
 Item::Item()
 {
@@ -15,7 +17,7 @@ Item::Item()
 
 Item::Item(std::string name, ItemType type, float price)
 {
-    if(name != "")
+    if(name != "" && name.length() < MAX)
     {
         this->name = name;
     }
@@ -26,13 +28,13 @@ Item::Item(std::string name, ItemType type, float price)
 
     this->type = type;
 
-    if(price > 0)
+    if(price > 0.2)
     {
         this->price = price;
     }
     else
     {
-        price = 0.0;
+        price = 0.2;
     }
 }
 
@@ -51,8 +53,7 @@ std::string Item::getName()
 
 bool Item::setName(std::string value)
 {
-    //todo add regex checking - no special characters
-    if(value != "")
+    if(value != "" && value.length() < MAX)
     {
         name = value;
         return true;
@@ -82,14 +83,14 @@ float Item::getPrice()
 
 bool Item::setPrice(float value)
 {
-    if(value > 0)
+    if(value > 0.2)
     {
         price = value;
         return true;
     }
     else
     {
-        price = 1.0;
+        price = 0.2;
         return false;
     }
 }

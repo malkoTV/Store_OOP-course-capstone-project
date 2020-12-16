@@ -14,8 +14,17 @@ Date::Date()
 
 Date::Date(int day, int month)
 {
-    this->day = day;
-    this->month = month;
+    if(day > 0 && day <= 31)
+    {
+        this->day = day;
+    }
+
+    if(month > 0 && month <= 12)
+    {
+        this->month = month;
+    }
+
+    Update();
 }
 
 Date::Date(const Date &other)
@@ -30,12 +39,12 @@ int Date::getDay()
     return day;
 }
 
-//todo advanced setters for date
 bool Date::setDay(int value)
 {
     if(value > 0 && value <= 31)
     {
         day = value;
+        Update();
         return true;
     }
     return false;
@@ -51,6 +60,7 @@ bool Date::setMonth(int value)
     if(value > 0 && value <= 12)
     {
         month = value;
+        Update();
         return true;
     }
     return false;
@@ -72,23 +82,6 @@ Date::operator std::string() const {
     return strD + "." + strM;
 }
 
-std::string Date::operator+(const std::string &str) const
-{
-    std::string strM = std::to_string(month);
-    if(month < 10)
-    {
-        strM = "0" + strM;
-    }
-
-    std::string strD = std::to_string(day);
-    if(day < 10)
-    {
-        strD = "0" + strD;
-    }
-
-    return str + strD + "." + strM;
-}
-
 bool Date::operator==(const Date &other) const
 {
     return day == other.day && month == other.month;
@@ -99,68 +92,25 @@ bool Date::operator!=(const Date &other) const
     return day != other.day || month != other.month;
 }
 
-bool Date::operator<(const Date &other) const
+void Date::Update()
 {
-    if(month < other.month)
+    if(month == 2)
     {
-        return true;
-    }
-    else if(month == month)
-    {
-        if(day < other.day)
+        if(day > 28)
         {
-            return true;
+            day = 28;
         }
     }
-    return false;
-}
-
-bool Date::operator>(const Date &other) const
-{
-    if(month > other.month)
+    else
     {
-        return true;
-    }
-    else if(month == month)
-    {
-        if(day > other.day)
+        if(month % 2 == 0)
         {
-            return true;
+            if(day > 30)
+            {
+                day = 30;
+            }
         }
     }
-    return false;
-}
-
-bool Date::operator<=(const Date &other) const
-{
-    if(month < other.month)
-    {
-        return true;
-    }
-    else if(month == month)
-    {
-        if(day <= other.day)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Date::operator>=(const Date &other) const
-{
-    if(month > other.month)
-    {
-        return true;
-    }
-    else if(month == month)
-    {
-        if(day >= other.day)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 std::ostream& operator<<(std::ostream& os, const Date& obj)

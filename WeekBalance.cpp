@@ -13,11 +13,13 @@ WeekBalance::WeekBalance() : Balance(){ }
 WeekBalance::WeekBalance(DayBalance *days) : Balance()
 {
     Utils::copy(days, this->days, W);
+    CalculateTotal();
 }
 
 WeekBalance::WeekBalance(const WeekBalance &other) : Balance()
 {
     Utils::copy(other.days, this->days, W);
+    total = other.total;
 }
 
 DayBalance* WeekBalance::getDays()
@@ -28,6 +30,7 @@ DayBalance* WeekBalance::getDays()
 bool WeekBalance::setDays(DayBalance* value)
 {
     Utils::copy(value, days, W);
+    CalculateTotal();
     return true;
 }
 
@@ -195,3 +198,12 @@ bool WeekBalance::Search(std::string str, DayBalance* dayBalance, int& size)
     size = iter;
     return flag;
 }
+
+void WeekBalance::CalculateTotal()
+{
+    for(int i = 0; i < W; i++)
+    {
+        total += days[i].getTotal();
+    }
+}
+
