@@ -132,8 +132,8 @@ void Listings::Table()
         printf("   %s", ToString(items[i].getType()).c_str());
         Utils::line(255, fieldLength - 2 - std::string(ToString(items[i].getType())).length() - 1);
         Utils::print(179); // vertical line
-        printf("   %5f", items[i].getPrice());
-        Utils::line(255, fieldLength - 2 - 8 - 1);
+        printf("   %7.3f", items[i].getPrice());
+        Utils::line(255, fieldLength - 10);
         Utils::print(179); // vertical line
 
         printf("\n");

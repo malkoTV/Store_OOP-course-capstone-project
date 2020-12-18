@@ -32,7 +32,7 @@ Seller::Seller(std::string lastName, std::string firstName, int age)
         this->firstName = "default";
     }
 
-    if(age >= 18 && age < 120)
+    if(age >= 18 && age < 80)
     {
         this->age = age;
     }
@@ -94,7 +94,7 @@ int Seller::getAge()
 
 bool Seller::setAge(int value)
 {
-    if(value >= 18 && value < 120)
+    if(value >= 18 && value < 80)
     {
         age = value;
         return true;

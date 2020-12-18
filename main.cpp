@@ -31,16 +31,99 @@ template<class T> void ReadBinaryFile(T* object, int size, string name = "New fi
 
 int main() {
 
-    int size = 12;
+    int size = 21;
     Listings listings = Listings(size);
+    listings[0] = Item("White Bread", individually, 12.56);
+    listings[1] = Item("Dark Bread", individually, 12.56);
+    listings[2] = Item("Milk 1L", individually, 30.9);
+    listings[3] = Item("Milk 2L", individually, 30.9);
+    listings[4] = Item("Butter 67%", byWeight, 200.0);
+    listings[5] = Item("Butter 75%", byWeight, 250.0);
+    listings[6] = Item("Butter 82%", byWeight, 300.0);
+    listings[7] = Item("Rice", byWeight, 30);
+    listings[8] = Item("Buckwheat", byWeight, 35);
+    listings[9] = Item("Oats", byWeight, 20.0);
+    listings[10] = Item("Bulgur", byWeight, 23.5);
+    listings[11] = Item("Chicken", byWeight, 100.0);
+    listings[12] = Item("Pork", byWeight, 130.0);
+    listings[13] = Item("Fish", byWeight, 110.0);
+    listings[14] = Item("Sausage", byWeight, 110.0);
+    listings[15] = Item("Dark Chocolate", individually, 25.0);
+    listings[16] = Item("Milk Chocolate", individually, 27.0);
+    listings[17] = Item("White Chocolate", individually, 29.0);
+    listings[18] = Item("Apple Juice", individually, 29.0);
+    listings[19] = Item("Orange Juice", individually, 29.0);
+    listings[20] = Item("Cheese", byWeight, 250.0);
+
+    //Sellers
+    int sSize = 4;
+    Seller* seller = new Seller[sSize];
+    seller[0] = Seller("Tanya", "Gryt");
+    seller[1] = Seller("Natalia", "Kuznetsova");
+    seller[2] = Seller("Daria", "Hrebeniuk");
+    seller[3] = Seller("Maria", "Volkova");
+
+    Order* order = new Order[size];
+    int startDay = 7;
+
+    for(int i = 0, j = 0; i < size; i++, j++)
+    {
+        if(j == sSize)
+        {
+            j = 0;
+        }
+        if(listings[i].getType() == individually)
+        {
+            order[i] = Order(Date(startDay++, 12), seller[j], listings[i], (float)(rand() % 3 + 1));
+        }
+        else
+        {
+            order[i] = Order(Date(startDay++, 12), seller[j], listings[i], (float)((rand() % 3 + 1) + 0.1 * (rand() % 1000 + 100)));
+        }
+    }
+
     WeekBalance weekBalance = WeekBalance();
+
+    int step = 2;
+
+    try{
+        for(int i = 0; i < W; i++)
+        {
+            weekBalance[i] = DayBalance(&order[i], step);
+        }
+    } catch (IndexingException &ex){
+        ex.PrintMessage();
+    }
+
+    step = 2;
     DayBalance* dayBalances = new DayBalance[N];
+
+    try{
+        for(int i = 0; i < N; i++)
+        {
+            dayBalances[i] = DayBalance(&order[i * step], step);
+        }
+    } catch (IndexingException &ex){
+        ex.PrintMessage();
+    }
+
+
+
+    Order order1 = Order(Date(13, 12), Seller("Tanya", "Gryt"), Item("Bread", individually, 23.0));
+
+    try{
+        weekBalance[2].AddOrder(order1);
+        weekBalance[5].AddOrder(order1);
+    } catch (IndexingException &ex)
+    {
+        ex.PrintMessage();
+    }
 
     while(true)
     {
         cout << "Menu" << endl;
         cout << "0 - Exit" << endl;
-        cout << "1 - Create new Object" << endl;
+        cout << "1 - Create new or edit an Object" << endl;
         cout << "2 - Show table for..." << endl;
         cout << "3 - Read Object from file" << endl;
         cout << "4 - Write Object to file" << endl;
@@ -84,10 +167,12 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
     char o, t;
 
     cout << "Where do you want to store your object?" << endl;
-    cout << "0 - quit writing to file\n"
-         << "1 - Listings\n"
-         << "2 - Week balance\n"
-         << "3 - Day balance (from array)\n";
+    cout << "0 - quit creating\n"
+         << "1 - Add Item to listings\n"
+         << "2 - Add Order to DayBalance in Week balance\n"
+         << "3 - Edit Day balance (from array)\n"
+         << "4 - create new listings\n";
+
     cin >> o;
 
     switch(o)
@@ -208,6 +293,17 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
                 ex.PrintMessage();
             }
             break;
+        case '4':
+            try{
+                cout << "How many items do you want to create in listings?" << endl;
+                int size = -1;
+                cin >> size;
+                listings = new Listings(size);
+            }
+            catch(SizeException &ex) {
+                ex.PrintMessage();
+            }
+            break;
         default:
             cout << "Invalid input" << endl;
     }
@@ -228,7 +324,7 @@ void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBala
     Showable* spointer;
     switch(o){
         case '0':
-            break;
+            return;
         case '1':
             spointer = listings;
             break;
@@ -410,10 +506,12 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
     }
     else if(mode == 'S')
     {
+        cout << "Enter your search" << endl;
         cin >> str;
     }
     else
     {
+        cout << "Enter your search" << endl;
         mode = 'N';
         cin >> num;
     }
@@ -441,6 +539,11 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
             {
                 listings->Search(str, itemSearch, size);
             }
+            cout << "Found these Objects" << endl;
+            for(int i = 0; i < size; i++)
+            {
+                cout << itemSearch << endl;
+            }
             break;
         case '2':
             if(mode == 'N')
@@ -450,6 +553,11 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
             else if(mode == 'S')
             {
                 weekBalance->Search(str, daySearch, size);
+            }
+            cout << "Found these Objects" << endl;
+            for(int i = 0; i < size; i++)
+            {
+                daySearch->Table();
             }
             break;
         case '3':
@@ -469,6 +577,11 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
                         i = N;
                     }
                 }
+            }
+            cout << "Found these Objects" << endl;
+            for(int i = 0; i < size; i++)
+            {
+                orderSearch->Show();
             }
             break;
         default:

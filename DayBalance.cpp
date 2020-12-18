@@ -41,6 +41,7 @@ DayBalance::DayBalance(Order *value, int size) : Balance()
         this->size = 1;
     }
 
+    orders = new Order[this->size];
     Utils::copy(value, orders, this->size);
     CalculateTotal();
 }
@@ -104,7 +105,7 @@ DayBalance::operator float() const {
 
 void DayBalance::Table()
 {
-    int fieldLength = 25;
+    int fieldLength = 20;
     int fieldCount = 4; // field count
 
     //headline
@@ -188,9 +189,9 @@ void DayBalance::Table()
         Utils::line(255, fieldLength);
         Utils::print(179);
     }
-    printf(" %23s  ", "Total");
+    printf(" %18s  ", "Total");
     Utils::print(179);
-    printf("%25.2f ", total);
+    printf("%20.2f ", total);
     Utils::print(179);
     printf("\n");
 

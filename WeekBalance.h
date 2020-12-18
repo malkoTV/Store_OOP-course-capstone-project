@@ -20,7 +20,6 @@ public:
     WeekBalance();
     WeekBalance(DayBalance* days);
     WeekBalance(const WeekBalance& other);
-    ~WeekBalance();
 
     //getters & setters
     DayBalance* getDays();
