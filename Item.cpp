@@ -120,7 +120,7 @@ Item::operator float() const
 bool Item::Contains(std::string str)
 {
     bool flag = false;
-    if(str == name || str == ToString(type))
+    if(name.find(str) != std::string::npos || str == ToString(type))
     {
         flag = true;
     }
@@ -130,5 +130,5 @@ bool Item::Contains(std::string str)
 
 std::ostream& operator<<(std::ostream& os, const Item& obj)
 {
-    return (os << std::string(obj));
+    return (os << std::string(obj) << "\t" << obj.operator float());
 }

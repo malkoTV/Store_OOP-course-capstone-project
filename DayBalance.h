@@ -84,6 +84,9 @@ public:
     }
 
     bool Contains(std::string str);
+
+private:
+    void Update();
 };
 
 #endif //STORE_DAYBALANCE_H

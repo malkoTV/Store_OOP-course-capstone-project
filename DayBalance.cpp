@@ -44,6 +44,7 @@ DayBalance::DayBalance(Order *value, int size) : Balance()
     orders = new Order[this->size];
     Utils::copy(value, orders, this->size);
     CalculateTotal();
+    Update();
 }
 
 DayBalance::DayBalance(const DayBalance &other) : Balance()
@@ -72,6 +73,7 @@ bool DayBalance::setOrders(Order* value, int size)
 
     Utils::copy(value, orders, this->size);
     CalculateTotal();
+    Update();
     return true;
 }
 
@@ -105,7 +107,7 @@ DayBalance::operator float() const {
 
 void DayBalance::Table()
 {
-    int fieldLength = 20;
+    int fieldLength = 24;
     int fieldCount = 4; // field count
 
     //headline
@@ -160,11 +162,11 @@ void DayBalance::Table()
         Utils::line(255, fieldLength - 2 - std::string(*orders[i].getSeller()).length() - 1);
         Utils::print(179); // vertical line
         printf("%s", std::string(*orders[i].getItem()).c_str());
-        Utils::line(255, fieldLength - 1 - std::string(*orders[i].getItem()).length() - 6);
-        printf("X%5.3f ", orders[i].getAmount());
+        Utils::line(255, fieldLength - 1 - std::string(*orders[i].getItem()).length() - 8);
+        printf("X%-7.3f ", orders[i].getAmount());
         Utils::print(179); // vertical line
-        Utils::line(255, fieldLength - 5);
-        printf("%-5.2f", orders[i].getTotal());
+        Utils::line(255, fieldLength - 7);
+        printf("%-7.2f", orders[i].getTotal());
         Utils::print(179); // vertical line
 
         printf("\n");
@@ -189,9 +191,9 @@ void DayBalance::Table()
         Utils::line(255, fieldLength);
         Utils::print(179);
     }
-    printf(" %18s  ", "Total");
+    printf(" %22s  ", "Total");
     Utils::print(179);
-    printf("%20.2f ", total);
+    printf("%24.2f ", total);
     Utils::print(179);
     printf("\n");
 
@@ -218,6 +220,8 @@ void DayBalance::AddOrder(Order order) {
     orders = temp;
 
     CalculateTotal();
+    Date* currentDate = orders[0].getDate();
+    orders[size - 1].setDate(*currentDate);
 }
 
 bool DayBalance::Contains(std::string str)
@@ -261,8 +265,20 @@ bool DayBalance::Search(std::string str, Order *order, int &size)
 
 void DayBalance::CalculateTotal()
 {
+    total = 0.0;
     for(int i = 0; i < size; i++)
     {
         total += orders[i].getTotal();
     }
 }
+
+void DayBalance::Update() {
+
+    Date* currentDate = orders[0].getDate();
+    for(int i = 1; i < size; i++)
+    {
+        orders[i].setDate(*currentDate);
+    }
+}
+
+

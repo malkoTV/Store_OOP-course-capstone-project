@@ -107,9 +107,9 @@ void WeekBalance::Table()
         printf("%-3d  ", days[i].getSize());
         //printf("X%5.3f ", orders[i].getAmount());
         Utils::print(179); // vertical line
-        Utils::line(255, fieldLength - 5);
-        printf("%-5.2f", days[i].getTotal());
-        Utils::print(179); // vertical line*/
+        //Utils::line(255, fieldLength - 5);
+        printf("  %14.2f", days[i].getTotal());
+        Utils::print(179); // vertical line
 
         printf("\n");
 
@@ -202,6 +202,7 @@ bool WeekBalance::Search(std::string str, DayBalance* dayBalance, int& size)
 
 void WeekBalance::CalculateTotal()
 {
+    total = 0.0;
     for(int i = 0; i < W; i++)
     {
         total += days[i].getTotal();

@@ -72,14 +72,16 @@ int main() {
         {
             j = 0;
         }
+
         if(listings[i].getType() == individually)
         {
-            order[i] = Order(Date(startDay++, 12), seller[j], listings[i], (float)(rand() % 3 + 1));
+            order[i] = Order(Date(startDay++, 12), seller[j], listings[i], (float)(rand() % 8 + 1));
         }
         else
         {
-            order[i] = Order(Date(startDay++, 12), seller[j], listings[i], (float)((rand() % 3 + 1) + 0.1 * (rand() % 1000 + 100)));
+            order[i] = Order(Date(startDay++, 12), seller[j], listings[i], (float)((rand() % 2 + 1) + 0.001 * (rand() % 1000 + 100)));
         }
+
     }
 
     WeekBalance weekBalance = WeekBalance();
@@ -95,45 +97,42 @@ int main() {
         ex.PrintMessage();
     }
 
-    step = 2;
     DayBalance* dayBalances = new DayBalance[N];
-
-    try{
-        for(int i = 0; i < N; i++)
-        {
-            dayBalances[i] = DayBalance(&order[i * step], step);
-        }
-    } catch (IndexingException &ex){
-        ex.PrintMessage();
+    for(int i = 0; i < N; i++)
+    {
+        dayBalances[i] = DayBalance(&order[i * step], step);
     }
 
 
-
-    Order order1 = Order(Date(13, 12), Seller("Tanya", "Gryt"), Item("Bread", individually, 23.0));
+    Order order1 = Order(Date(13, 12), seller[0], listings[0]);
 
     try{
+        order1.setDate(*weekBalance[2].getOrders()[0].getDate());
         weekBalance[2].AddOrder(order1);
+
+        order1.setDate(*weekBalance[5].getOrders()[0].getDate());
+        order1.setSeller(seller[1]);
         weekBalance[5].AddOrder(order1);
     } catch (IndexingException &ex)
     {
         ex.PrintMessage();
     }
 
+
+
     while(true)
     {
         cout << "Menu" << endl;
         cout << "0 - Exit" << endl;
-        cout << "1 - Create new or edit an Object" << endl;
+        cout << "1 - Create new Object" << endl;
         cout << "2 - Show table for..." << endl;
         cout << "3 - Read Object from file" << endl;
         cout << "4 - Write Object to file" << endl;
         cout << "5 - Search in..." << endl;
+        cout << "6 - Shop stats" << endl;
 
         char t;
-        char o;
         cin >> t;
-
-        int idx;
 
         switch (t) {
             case '0':
@@ -153,6 +152,12 @@ int main() {
             case '5':
                 Search(&listings, &weekBalance, dayBalances);
                 break;
+            case '6':
+                cout << "Average order count per day:\t";
+                cout << weekBalance.AvgOrderCount() << endl;
+                cout << "Average order sum per day:\t";
+                cout << weekBalance.AvgOrderSum() << endl;
+                break;
             default:
                 cout << "Invalid input" << endl;
         }
@@ -170,79 +175,66 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
     cout << "0 - quit creating\n"
          << "1 - Add Item to listings\n"
          << "2 - Add Order to DayBalance in Week balance\n"
-         << "3 - Edit Day balance (from array)\n"
-         << "4 - create new listings\n";
+         << "3 - Add Order to DayBalance in array\n";
 
     cin >> o;
+
+    string str = "";
+    string str1 = "";
+    ItemType itemType = byWeight;
+    float fValue = 0.0;
+    char ch;
+    int size = 1;
+
+    Item* item = new Item[size];
+    Order* order;
+    Seller* seller;
 
     switch(o)
     {
         case '0':
             return;
         case '1':
-            cout << "Do you want to input values or create default?\ni - input\td - default";
-            cin >> t;
-            if(t == 'i')
+            cout << "Enter the name" << endl;
+            cin >> str;
+            cout << "Enter the type: i - sold individually, b - by weight" << endl;
+            cin >> ch;
+            if(ch == 'i')
             {
-                string str;
-                ItemType itemType;
-                float price;
-                char type;
-
-                cout << "Enter the name" << endl;
-                cin >> str;
-                cout << "Enter the type: i - sold individually, b - by weight" << endl;
-                cin >> type;
-                if(type == 'b')
-                {
-                    itemType = individually;
-                }
-                else
-                {
-                    itemType = byWeight;
-                }
-                cout << "Enter the price" << endl;
-                cin >> price;
-                Item holder = Item(str, itemType, price);
-
+                itemType = individually;
             }
-            else if(t == 'd')
-            {
-                Item holder = Item();
-                listings->AddItem(holder);
-            }
-
+            cout << "Enter the price" << endl;
+            cin >> fValue;
+            item = new Item(str, itemType, fValue);
+            listings->AddItem(*item);
             break;
         case '2':
             try{
-                cout << "What day do you want to edit? from 0 to 6" << endl;
+                cout << "To which day do you want to add order? from 0 to 6" << endl;
                 int idx = -1;
                 cin >> idx;
-                cout << "Do you want to input values or create default?\ni - input\td - default";
-                cin >> t;
-                Order order;
-                if(t == 'i')
-                {
-                    string str1;
-                    string str2;
-                    float amount = 1.0;
-                    int i = -1;
 
-                    cout << "Enter the first name" << endl;
-                    cin >> str1;
-                    cout << "Enter the last name" << endl;
-                    cin >> str2;
-                    cout << "Enter the price" << endl;
-                    cin >> amount;
-                    cout << "What item do you want to buy? (Enter index)" << endl;
-                    cin >> i;
-                    order = Order(Date(14, 12), Seller("Jane", "Smith"), listings->operator[](i), amount);
-                }
-                else if(t == 'd')
+                cout << "Enter the name of an Item" << endl;
+                cin >> str;
+                size = 1;
+                listings->Search(str, item, size);
+                if(size == 0)
                 {
-                    order = Order();
+                    cout << "Item not found" << endl;
+                    return;
                 }
-                (weekBalance->operator[](idx)).AddOrder(order);
+
+                cout << "Enter the first name" << endl;
+                cin >> str;
+                cout << "Enter the last name" << endl;
+                cin >> str1;
+                seller = new Seller(str1, str);
+
+                cout << "Enter the amount" << endl;
+                cin >> fValue;
+
+                order = new Order(Date(14, 12), *seller, *item, fValue);
+                weekBalance->operator[](idx).AddOrder(*order);
             }
             catch(NegIdxException &ex)
             {
@@ -255,52 +247,38 @@ void Create(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
             break;
         case '3':
             try{
-                cout << "What day do you want to edit? from 0 to 6" << endl;
+                cout << "To which day do you want to add order? from 0 to 10" << endl;
                 int idx = -1;
                 cin >> idx;
-                cout << "Do you want to input values or create default?\ni - input\td - default";
-                cin >> t;
-                Order order;
-                if(t == 'i')
-                {
-                    string str1;
-                    string str2;
-                    float amount = 1.0;
-                    int i = -1;
 
-                    cout << "Enter the first name" << endl;
-                    cin >> str1;
-                    cout << "Enter the last name" << endl;
-                    cin >> str2;
-                    cout << "Enter the price" << endl;
-                    cin >> amount;
-                    cout << "What item do you want to buy? (Enter index)" << endl;
-                    cin >> i;
-                    order = Order(Date(14, 12), Seller("Jane", "Smith"), listings->operator[](i), amount);
-                }
-                else if(t == 'd')
+                cout << "Enter the name of an Item" << endl;
+                cin >> str;
+                size = 1;
+                listings->Search(str, item, size);
+                if(size == 0)
                 {
-                    order = Order();
+                    cout << "Item not found" << endl;
+                    return;
                 }
-                dayBalances[idx].AddOrder(order);
+
+                cout << "Enter the first name of the seller" << endl;
+                cin >> str;
+                cout << "Enter the last name of the seller" << endl;
+                cin >> str1;
+                seller = new Seller(str, str1);
+
+                cout << "Enter the amount" << endl;
+                cin >> fValue;
+
+                order = new Order(Date(14, 12), *seller, *item, fValue);
+                dayBalances[idx].AddOrder(*order);
             }
-            catch(NegIdxException &ex)
+            catch(IndexingException &ex)
             {
                 ex.PrintMessage();
             }
-            catch(LargeIdxException &ex)
+            catch(SizeException &ex)
             {
-                ex.PrintMessage();
-            }
-            break;
-        case '4':
-            try{
-                cout << "How many items do you want to create in listings?" << endl;
-                int size = -1;
-                cin >> size;
-                listings = new Listings(size);
-            }
-            catch(SizeException &ex) {
                 ex.PrintMessage();
             }
             break;
@@ -318,8 +296,8 @@ void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBala
     cout << "0 - quit show\n"
          << "1 - all items in the shop\n"
          << "2 - week balance\n"
-         << "3 - day balance (from array)\n"
-         << "4 - day balance (from week balance)\n";
+         << "3 - day balance (from week balance)\n"
+         << "4 - day balance (from array)\n";
     cin >> o;
     Showable* spointer;
     switch(o){
@@ -335,6 +313,24 @@ void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBala
             cout << "Enter index" << endl;
             cin >> idx;
             try{
+                if(idx >= W)
+                {
+                    throw LargeIdxException(idx);
+                }
+                else if(idx < 0)
+                {
+                    throw NegIdxException(idx);
+                }
+                spointer = &(weekBalance->getDays()[idx]);
+
+            } catch (IndexingException &ex) {
+                ex.PrintMessage();
+            }
+            break;
+        case '4':
+            cout << "Enter index" << endl;
+            cin >> idx;
+            try{
                 if(idx >= N)
                 {
                     throw LargeIdxException(idx);
@@ -345,25 +341,6 @@ void ShowTable(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBala
                 }
 
                 spointer = &dayBalances[idx];
-
-            } catch (IndexingException &ex) {
-                ex.PrintMessage();
-            }
-            break;
-        case '4':
-            cout << "Enter index" << endl;
-            cin >> idx;
-            try{
-                if(idx >= W)
-                {
-                    throw LargeIdxException(idx);
-                }
-                else if(idx < 0)
-                {
-                    throw NegIdxException(idx);
-                }
-
-                spointer = &weekBalance[idx];
 
             } catch (IndexingException &ex) {
                 ex.PrintMessage();
@@ -387,7 +364,7 @@ void ReadFile(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalan
     cout << "0 - quit writing to file\n"
          << "1 - Listings\n"
          << "2 - Week balance\n"
-         << "3 - Day balance (from array)\n";
+         << "3 - Day balance\n";
     cin >> o;
     if(f == '0')
     {
@@ -500,32 +477,31 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
     cout << "What do you want to search?" << endl;
     cout << "N - number\tS - string" << endl;
     cin >> mode;
+    cout << "Enter your search" << endl;
     if(mode == 'N')
     {
         cin >> num;
     }
     else if(mode == 'S')
     {
-        cout << "Enter your search" << endl;
         cin >> str;
     }
     else
     {
-        cout << "Enter your search" << endl;
         mode = 'N';
         cin >> num;
     }
 
-    int size = 3;
+    int size = 5;
     Item* itemSearch = new Item[size];
     DayBalance* daySearch = new DayBalance[size];
     Order* orderSearch = new Order[size];
 
-    cout << "Where do you want to search?\n";
+    cout << "What do you want to search?\n";
     cout << "0 - quit show\n"
-         << "1 - all items in the shop\n"
-         << "2 - week balance\n"
-         << "3 - day balance (from week balance)\n";
+         << "1 - item in the shop\n"
+         << "2 - day balance in the past week\n"
+         << "3 - day balance (from array)\n";
     cin >> o;
     switch(o){
         case '0':
@@ -535,14 +511,14 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
             {
                 listings->Search(num, itemSearch, size);
             }
-            else if(mode == 'S')
+            else
             {
                 listings->Search(str, itemSearch, size);
             }
-            cout << "Found these Objects" << endl;
+            cout << "Found " << size << " items:" << endl;
             for(int i = 0; i < size; i++)
             {
-                cout << itemSearch << endl;
+                cout << itemSearch[i] << endl;
             }
             break;
         case '2':
@@ -554,10 +530,10 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
             {
                 weekBalance->Search(str, daySearch, size);
             }
-            cout << "Found these Objects" << endl;
+            cout << "Found " << size << " days:" << endl;
             for(int i = 0; i < size; i++)
             {
-                daySearch->Table();
+                daySearch[i].Table();
             }
             break;
         case '3':
@@ -578,17 +554,16 @@ void Search(Listings* listings, WeekBalance* weekBalance, DayBalance* dayBalance
                     }
                 }
             }
-            cout << "Found these Objects" << endl;
+            cout << "Found " << size << " orders:" << endl;
             for(int i = 0; i < size; i++)
             {
-                orderSearch->Show();
+                orderSearch[i].Show();
             }
             break;
         default:
             cout << "Unknown command" << endl;
             break;
     }
-    cout << "Found " << size << " objects" << endl;
 }
 
 template<class T> void WriteTextFile(T* object, int size, string name, string path, string format)
